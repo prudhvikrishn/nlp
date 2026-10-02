@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}BSD Bank | Admin Login{% endblock %}
+{% block content %}
+  <section class="card">
+    <h1>Admin sign in</h1>
+    {% if not admin_configured %}
+      <div class="notice error">Admin access is unavailable until ADMIN_PASSWORD and SECRET_KEY are configured.</div>
+    {% else %}
+      <form method="post" action="{{ url_for('admin_login') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label for="password">Admin password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Sign in</button>
+      </form>
+    {% endif %}
+  </section>
+{% endblock %}

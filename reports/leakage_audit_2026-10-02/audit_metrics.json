@@ -1,0 +1,1215 @@
+{
+  "baseline": {
+    "champion": {
+      "model": "LinearSVC",
+      "features": "hybrid"
+    },
+    "reject_threshold": 0.6,
+    "similarity_threshold": 0.411,
+    "validation_macro_f1": 0.9728,
+    "test": {
+      "accuracy": 0.967,
+      "macro_f1": 0.9575,
+      "weighted_f1": 0.9667,
+      "macro_precision": 0.9741,
+      "macro_recall": 0.9436,
+      "weighted_precision": 0.9677,
+      "weighted_recall": 0.967
+    }
+  },
+  "splits": {
+    "train": {
+      "n": 3856,
+      "source": {
+        "original": 3479,
+        "synthetic": 377
+      },
+      "intent": {
+        "loan_inquiry": 1118,
+        "fraud_report": 874,
+        "transaction_query": 829,
+        "balance_inquiry": 226,
+        "credit_card_application": 223,
+        "password_reset": 209,
+        "card_issue": 189,
+        "forgot_pin": 188
+      }
+    },
+    "val": {
+      "n": 836,
+      "source": {
+        "original": 746,
+        "synthetic": 90
+      },
+      "intent": {
+        "loan_inquiry": 240,
+        "fraud_report": 187,
+        "transaction_query": 178,
+        "credit_card_application": 48,
+        "balance_inquiry": 48,
+        "password_reset": 45,
+        "forgot_pin": 45,
+        "card_issue": 45
+      }
+    },
+    "test": {
+      "n": 818,
+      "source": {
+        "original": 746,
+        "synthetic": 72
+      },
+      "intent": {
+        "loan_inquiry": 240,
+        "fraud_report": 188,
+        "transaction_query": 177,
+        "balance_inquiry": 49,
+        "credit_card_application": 47,
+        "password_reset": 45,
+        "forgot_pin": 36,
+        "card_issue": 36
+      }
+    }
+  },
+  "exact_duplicates": {
+    "train_val": {
+      "pairs": 0,
+      "examples": []
+    },
+    "train_test": {
+      "pairs": 0,
+      "examples": []
+    },
+    "val_test": {
+      "pairs": 0,
+      "examples": []
+    }
+  },
+  "punctuation_insensitive_project_key_pair_counts": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "source_split_counts": {
+    "original": {
+      "train": 3479,
+      "val": 746,
+      "test": 746
+    },
+    "synthetic": {
+      "train": 377,
+      "val": 90,
+      "test": 72
+    }
+  },
+  "template_overlap": {
+    "train_val": {
+      "shared_synthetic_template_families": 0,
+      "families": []
+    },
+    "train_test": {
+      "shared_synthetic_template_families": 0,
+      "families": []
+    },
+    "val_test": {
+      "shared_synthetic_template_families": 0,
+      "families": []
+    }
+  },
+  "near_duplicate_pair_counts": {
+    "char_wb_3_5": {
+      "0.9": {
+        "pair_count": 23,
+        "test_query_count": 18,
+        "max_test_neighbor": 1.0000001192092896
+      },
+      "0.95": {
+        "pair_count": 12,
+        "test_query_count": 9,
+        "max_test_neighbor": 1.0000001192092896
+      },
+      "0.98": {
+        "pair_count": 1,
+        "test_query_count": 1,
+        "max_test_neighbor": 1.0000001192092896
+      }
+    },
+    "word_tfidf_1_2": {
+      "0.9": {
+        "pair_count": 1,
+        "test_query_count": 1,
+        "max_test_neighbor": 0.9635209441184998
+      },
+      "0.95": {
+        "pair_count": 1,
+        "test_query_count": 1,
+        "max_test_neighbor": 0.9635209441184998
+      },
+      "0.98": {
+        "pair_count": 0,
+        "test_query_count": 0,
+        "max_test_neighbor": 0.9635209441184998
+      }
+    },
+    "token_jaccard": {
+      "0.9": {
+        "pair_count": 3,
+        "test_query_count": 2,
+        "max_test_neighbor": 1.0
+      },
+      "0.95": {
+        "pair_count": 1,
+        "test_query_count": 1,
+        "max_test_neighbor": 1.0
+      },
+      "0.98": {
+        "pair_count": 1,
+        "test_query_count": 1,
+        "max_test_neighbor": 1.0
+      }
+    }
+  },
+  "high_similarity_pair_summary": {
+    "pair_count": 26,
+    "same_intent": 26,
+    "different_intent": 0,
+    "test_correct": 26,
+    "by_source": {
+      "original__original": {
+        "pairs": 26,
+        "same_label": 26,
+        "test_correct": 26
+      }
+    }
+  },
+  "source_specific_nearest_char": {
+    "test_original__train_original": {
+      "test_n": 746,
+      "train_n": 3479,
+      "char_max_counts": {
+        "0.9": 18,
+        "0.95": 9,
+        "0.98": 1
+      },
+      "max": 1.0000001192092896
+    },
+    "test_original__train_synthetic": {
+      "test_n": 746,
+      "train_n": 377,
+      "char_max_counts": {
+        "0.9": 0,
+        "0.95": 0,
+        "0.98": 0
+      },
+      "max": 0.5111186504364014
+    },
+    "test_synthetic__train_original": {
+      "test_n": 72,
+      "train_n": 3479,
+      "char_max_counts": {
+        "0.9": 0,
+        "0.95": 0,
+        "0.98": 0
+      },
+      "max": 0.4632021486759186
+    },
+    "test_synthetic__train_synthetic": {
+      "test_n": 72,
+      "train_n": 377,
+      "char_max_counts": {
+        "0.9": 0,
+        "0.95": 0,
+        "0.98": 0
+      },
+      "max": 0.7098523378372192
+    }
+  },
+  "test_metrics_by_source": {
+    "combined": {
+      "n": 818,
+      "accuracy": 0.9669926650366748,
+      "macro_precision": 0.9741113864085349,
+      "macro_recall": 0.9436301931669411,
+      "macro_f1": 0.9575328591039354,
+      "weighted_f1": 0.9667230478973404
+    },
+    "original": {
+      "n": 746,
+      "accuracy": 0.9718498659517426,
+      "macro_precision": 0.9748467182479287,
+      "macro_recall": 0.9526180353336993,
+      "macro_f1": 0.9633057030360307,
+      "weighted_f1": 0.9723304189186927
+    },
+    "synthetic": {
+      "n": 72,
+      "accuracy": 0.9166666666666666,
+      "macro_precision": 1.0,
+      "macro_recall": 0.9166666666666667,
+      "macro_f1": 0.9545454545454546,
+      "weighted_f1": 0.9545454545454545
+    }
+  },
+  "test_metrics_after_filtering_high_char_similarity": {
+    "0.9": {
+      "removed_n": 18,
+      "remaining_n": 800,
+      "accuracy": 0.96625,
+      "macro_f1": 0.9573399521651238
+    },
+    "0.95": {
+      "removed_n": 9,
+      "remaining_n": 809,
+      "accuracy": 0.9666254635352287,
+      "macro_f1": 0.9574388230776889
+    },
+    "0.98": {
+      "removed_n": 1,
+      "remaining_n": 817,
+      "accuracy": 0.966952264381885,
+      "macro_f1": 0.957522884240591
+    }
+  },
+  "calibration": {
+    "top1_accuracy": 0.9669926650366748,
+    "mean_confidence": 0.9412098587152096,
+    "mean_confidence_correct": 0.9488079991065329,
+    "mean_confidence_incorrect": 0.7186124865101386,
+    "incorrect_n": 27,
+    "multiclass_brier_sum": 0.05637963317238771,
+    "multiclass_brier_mean_per_class": 0.007047454146548463,
+    "log_loss": 0.13693276413682673,
+    "top_label_ece_10_equal_count": 0.025782806321465453,
+    "reliability_bins": [
+      {
+        "n": 82,
+        "mean_confidence": 0.6871624356386805,
+        "accuracy": 0.7926829268292683,
+        "min_confidence": 0.3713933760784555,
+        "max_confidence": 0.8430242626536775
+      },
+      {
+        "n": 82,
+        "mean_confidence": 0.8924258821552442,
+        "accuracy": 0.9390243902439024,
+        "min_confidence": 0.8438315317736196,
+        "max_confidence": 0.924419302154581
+      },
+      {
+        "n": 82,
+        "mean_confidence": 0.9400019410417028,
+        "accuracy": 0.9634146341463414,
+        "min_confidence": 0.9247115621219214,
+        "max_confidence": 0.9537934350943459
+      },
+      {
+        "n": 82,
+        "mean_confidence": 0.9633571153604716,
+        "accuracy": 0.975609756097561,
+        "min_confidence": 0.9552113363146273,
+        "max_confidence": 0.9703338419774065
+      },
+      {
+        "n": 82,
+        "mean_confidence": 0.9749815427261743,
+        "accuracy": 1.0,
+        "min_confidence": 0.9705426845928908,
+        "max_confidence": 0.9791895553492511
+      },
+      {
+        "n": 82,
+        "mean_confidence": 0.9824365466312456,
+        "accuracy": 1.0,
+        "min_confidence": 0.97923226225524,
+        "max_confidence": 0.9853516839216369
+      },
+      {
+        "n": 82,
+        "mean_confidence": 0.9875955063319304,
+        "accuracy": 1.0,
+        "min_confidence": 0.9854168107607674,
+        "max_confidence": 0.9897959611742678
+      },
+      {
+        "n": 82,
+        "mean_confidence": 0.9918083211785612,
+        "accuracy": 1.0,
+        "min_confidence": 0.9898373627778871,
+        "max_confidence": 0.9934999710105842
+      },
+      {
+        "n": 81,
+        "mean_confidence": 0.9951868218226344,
+        "accuracy": 1.0,
+        "min_confidence": 0.9935389826785762,
+        "max_confidence": 0.9967645239149607
+      },
+      {
+        "n": 81,
+        "mean_confidence": 0.9984993826439382,
+        "accuracy": 1.0,
+        "min_confidence": 0.9968091889577451,
+        "max_confidence": 0.9999971157320913
+      }
+    ]
+  },
+  "calibration_method": {
+    "type": "CalibratedClassifierCV",
+    "calibrated_cv": 5,
+    "method": "sigmoid",
+    "calibrated_classifiers": 5,
+    "feature_kind": "hybrid",
+    "model_name": "LinearSVC"
+  },
+  "paraphrase_eval": {
+    "all_n": 45,
+    "in_domain_metrics": {
+      "n": 40,
+      "accuracy": 0.525,
+      "macro_precision": 0.7521739130434782,
+      "macro_recall": 0.525,
+      "macro_f1": 0.5389880952380952,
+      "weighted_f1": 0.5389880952380952
+    },
+    "out_of_scope_n": 5,
+    "out_of_scope_flagged": 0,
+    "in_domain_flagged": 18,
+    "novelty": {
+      "exact_overlap_n": 0,
+      "max_char_cosine": 0.7635371685028076,
+      "over_90": 0,
+      "rows": [
+        {
+          "query": "Why does my bank card get declined at every shop even though I have funds?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.6299325227737427
+        },
+        {
+          "query": "The cash machine keeps spitting my card back out.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4897935688495636
+        },
+        {
+          "query": "I cannot make a contactless payment with the card in my wallet.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.46263644099235535
+        },
+        {
+          "query": "The payment terminal says the chip cannot be read.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5414585471153259
+        },
+        {
+          "query": "My plastic card has cracked and the reader will not accept it.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3578796684741974
+        },
+        {
+          "query": "What is the number I need to withdraw cash? I have forgotten it.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4604906737804413
+        },
+        {
+          "query": "Can I set a replacement code for cash withdrawals?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.44246330857276917
+        },
+        {
+          "query": "I entered my cash machine code incorrectly too many times and now it is locked.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.42366015911102295
+        },
+        {
+          "query": "I have drawn a blank on the four-digit number for my cash card.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.2907916009426117
+        },
+        {
+          "query": "How can I recover the secret digits I use at an ATM?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4085322618484497
+        },
+        {
+          "query": "There is a debit on my statement that I never authorized; please secure my account.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5385739803314209
+        },
+        {
+          "query": "Someone accessed my bank profile while I was asleep.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.367544025182724
+        },
+        {
+          "query": "I got an alert for a purchase I did not make.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5399132370948792
+        },
+        {
+          "query": "Money disappeared after a suspicious sign-in to my account.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.41809675097465515
+        },
+        {
+          "query": "An unknown person seems to have used my banking details.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.2830412983894348
+        },
+        {
+          "query": "What would monthly repayments look like if I borrowed for a car?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.2726215422153473
+        },
+        {
+          "query": "Do you offer mortgages, and what are the eligibility rules?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4355236887931824
+        },
+        {
+          "query": "I am comparing borrowing rates before taking out a personal loan.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3693927526473999
+        },
+        {
+          "query": "How long does the bank take to decide on a borrowing request?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4003264605998993
+        },
+        {
+          "query": "Could I finance a home renovation through your bank?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3987683653831482
+        },
+        {
+          "query": "List the payments that left my account this week.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.2669477164745331
+        },
+        {
+          "query": "Can you identify the merchant behind this entry on my statement?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3630363345146179
+        },
+        {
+          "query": "I need to review my account activity from yesterday.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4082549810409546
+        },
+        {
+          "query": "Show deposits and withdrawals from last month.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4660651385784149
+        },
+        {
+          "query": "Which shop processed the forty-two dollar purchase on Tuesday?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3762437701225281
+        },
+        {
+          "query": "How much is available to spend in my current account?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4558534026145935
+        },
+        {
+          "query": "Tell me the remaining funds in my savings.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.7635371685028076
+        },
+        {
+          "query": "Can you look up the amount I have in my checking account?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4335538446903229
+        },
+        {
+          "query": "I need the up-to-date total for my bank account.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4396081268787384
+        },
+        {
+          "query": "What funds are left after pending payments?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3473009169101715
+        },
+        {
+          "query": "Which paperwork do I need to request a new card?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5944774746894836
+        },
+        {
+          "query": "Could I apply for a credit line with your bank?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.43878287076950073
+        },
+        {
+          "query": "Compare your cards and tell me how to sign up.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.37008175253868103
+        },
+        {
+          "query": "I would like to start an application for a bank credit card.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5057194828987122
+        },
+        {
+          "query": "What are the criteria for being approved for a new credit card?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.43404966592788696
+        },
+        {
+          "query": "I cannot sign in because I do not know my online banking passphrase.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.41578570008277893
+        },
+        {
+          "query": "Send instructions so I can choose a new login credential.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.48267537355422974
+        },
+        {
+          "query": "My mobile banking login secret is not coming to mind.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4483150541782379
+        },
+        {
+          "query": "I have been locked out after entering the wrong password.",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4395357668399811
+        },
+        {
+          "query": "Where can I change the code used to access internet banking?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.2514517605304718
+        }
+      ]
+    }
+  },
+  "paraphrase_per_intent": {
+    "balance_inquiry": {
+      "n": 5,
+      "correct_intent": 3,
+      "flagged_for_review": 3,
+      "mean_confidence": 0.79838837719843,
+      "errors": [
+        {
+          "query": "Can you look up the amount I have in my checking account?",
+          "predicted": "fraud_report",
+          "confidence": 0.581,
+          "needs_review": true
+        },
+        {
+          "query": "What funds are left after pending payments?",
+          "predicted": "fraud_report",
+          "confidence": 0.842,
+          "needs_review": true
+        }
+      ]
+    },
+    "card_issue": {
+      "n": 5,
+      "correct_intent": 3,
+      "flagged_for_review": 1,
+      "mean_confidence": 0.8918677686385118,
+      "errors": [
+        {
+          "query": "The cash machine keeps spitting my card back out.",
+          "predicted": "fraud_report",
+          "confidence": 0.956,
+          "needs_review": true
+        },
+        {
+          "query": "I cannot make a contactless payment with the card in my wallet.",
+          "predicted": "fraud_report",
+          "confidence": 0.923,
+          "needs_review": false
+        }
+      ]
+    },
+    "credit_card_application": {
+      "n": 5,
+      "correct_intent": 3,
+      "flagged_for_review": 1,
+      "mean_confidence": 0.7958313539024593,
+      "errors": [
+        {
+          "query": "Could I apply for a credit line with your bank?",
+          "predicted": "loan_inquiry",
+          "confidence": 0.916,
+          "needs_review": false
+        },
+        {
+          "query": "Compare your cards and tell me how to sign up.",
+          "predicted": "fraud_report",
+          "confidence": 0.409,
+          "needs_review": true
+        }
+      ]
+    },
+    "forgot_pin": {
+      "n": 5,
+      "correct_intent": 0,
+      "flagged_for_review": 3,
+      "mean_confidence": 0.7586579924426079,
+      "errors": [
+        {
+          "query": "What is the number I need to withdraw cash? I have forgotten it.",
+          "predicted": "fraud_report",
+          "confidence": 0.601,
+          "needs_review": false
+        },
+        {
+          "query": "Can I set a replacement code for cash withdrawals?",
+          "predicted": "fraud_report",
+          "confidence": 0.863,
+          "needs_review": true
+        },
+        {
+          "query": "I entered my cash machine code incorrectly too many times and now it is locked.",
+          "predicted": "fraud_report",
+          "confidence": 0.91,
+          "needs_review": true
+        },
+        {
+          "query": "I have drawn a blank on the four-digit number for my cash card.",
+          "predicted": "fraud_report",
+          "confidence": 0.589,
+          "needs_review": true
+        },
+        {
+          "query": "How can I recover the secret digits I use at an ATM?",
+          "predicted": "fraud_report",
+          "confidence": 0.83,
+          "needs_review": false
+        }
+      ]
+    },
+    "fraud_report": {
+      "n": 5,
+      "correct_intent": 5,
+      "flagged_for_review": 3,
+      "mean_confidence": 0.9432216032610959,
+      "errors": []
+    },
+    "loan_inquiry": {
+      "n": 5,
+      "correct_intent": 4,
+      "flagged_for_review": 1,
+      "mean_confidence": 0.8440604992914246,
+      "errors": [
+        {
+          "query": "How long does the bank take to decide on a borrowing request?",
+          "predicted": "fraud_report",
+          "confidence": 0.577,
+          "needs_review": true
+        }
+      ]
+    },
+    "out_of_scope": {
+      "n": 5,
+      "correct_intent": 0,
+      "flagged_for_review": 0,
+      "mean_confidence": 0.785510032165373,
+      "errors": [
+        {
+          "query": "Can you tell me the score of last night�s game?",
+          "predicted": "transaction_query",
+          "confidence": 0.793,
+          "needs_review": false
+        },
+        {
+          "query": "What is a good recipe for tomato soup?",
+          "predicted": "transaction_query",
+          "confidence": 0.816,
+          "needs_review": false
+        },
+        {
+          "query": "Please translate this email into Spanish.",
+          "predicted": "fraud_report",
+          "confidence": 0.613,
+          "needs_review": false
+        },
+        {
+          "query": "My phone screen is cracked; where can I repair it?",
+          "predicted": "fraud_report",
+          "confidence": 0.744,
+          "needs_review": false
+        },
+        {
+          "query": "Can you write a birthday message for my sister?",
+          "predicted": "fraud_report",
+          "confidence": 0.962,
+          "needs_review": false
+        }
+      ]
+    },
+    "password_reset": {
+      "n": 5,
+      "correct_intent": 2,
+      "flagged_for_review": 2,
+      "mean_confidence": 0.6909071160575119,
+      "errors": [
+        {
+          "query": "I cannot sign in because I do not know my online banking passphrase.",
+          "predicted": "fraud_report",
+          "confidence": 0.756,
+          "needs_review": false
+        },
+        {
+          "query": "My mobile banking login secret is not coming to mind.",
+          "predicted": "fraud_report",
+          "confidence": 0.631,
+          "needs_review": true
+        },
+        {
+          "query": "Where can I change the code used to access internet banking?",
+          "predicted": "fraud_report",
+          "confidence": 0.588,
+          "needs_review": true
+        }
+      ]
+    },
+    "transaction_query": {
+      "n": 5,
+      "correct_intent": 1,
+      "flagged_for_review": 4,
+      "mean_confidence": 0.8643528742895384,
+      "errors": [
+        {
+          "query": "List the payments that left my account this week.",
+          "predicted": "fraud_report",
+          "confidence": 0.938,
+          "needs_review": true
+        },
+        {
+          "query": "Can you identify the merchant behind this entry on my statement?",
+          "predicted": "fraud_report",
+          "confidence": 0.867,
+          "needs_review": false
+        },
+        {
+          "query": "I need to review my account activity from yesterday.",
+          "predicted": "fraud_report",
+          "confidence": 0.966,
+          "needs_review": true
+        },
+        {
+          "query": "Show deposits and withdrawals from last month.",
+          "predicted": "fraud_report",
+          "confidence": 0.776,
+          "needs_review": true
+        }
+      ]
+    }
+  },
+  "adversarial_eval": {
+    "all_n": 45,
+    "in_domain_metrics": {
+      "n": 40,
+      "accuracy": 0.725,
+      "macro_precision": 0.8564102564102565,
+      "macro_recall": 0.7250000000000001,
+      "macro_f1": 0.7270743145743146,
+      "weighted_f1": 0.7270743145743145
+    },
+    "out_of_scope_n": 5,
+    "out_of_scope_flagged": 1,
+    "in_domain_flagged": 7,
+    "novelty": {
+      "exact_overlap_n": 0,
+      "max_char_cosine": 0.6753087639808655,
+      "over_90": 0,
+      "rows": [
+        {
+          "query": "card dead at the till",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3377925455570221
+        },
+        {
+          "query": "chip wont scan�tried twice",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4337368905544281
+        },
+        {
+          "query": "my debit keeps getting spat back",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3129158020019531
+        },
+        {
+          "query": "cant tap n pay w my bank card",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.33426356315612793
+        },
+        {
+          "query": "the plastic wont work in ATM",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.48000282049179077
+        },
+        {
+          "query": "forgot cash pin",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.6015328168869019
+        },
+        {
+          "query": "blanked on my cash-machine code",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.45805466175079346
+        },
+        {
+          "query": "atm pin? totally forgot it",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.42418062686920166
+        },
+        {
+          "query": "too many wrong digits; cash code is blocked",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.32972073554992676
+        },
+        {
+          "query": "need new withdraw code dont know old one",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.49627095460891724
+        },
+        {
+          "query": "not mine: 37 dollars at shop",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3451312184333801
+        },
+        {
+          "query": "who charged me? I did not buy that",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.46071892976760864
+        },
+        {
+          "query": "bank app says purchase but it was not me",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.37902960181236267
+        },
+        {
+          "query": "someone drained my checking acct",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5750817656517029
+        },
+        {
+          "query": "fraud maybe, card used in another city",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.34385794401168823
+        },
+        {
+          "query": "car loan rate? just shopping around",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3482438623905182
+        },
+        {
+          "query": "need funds for house repairs, what can I borrow?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.49833792448043823
+        },
+        {
+          "query": "borrow for car�monthly cost?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3644470274448395
+        },
+        {
+          "query": "when will the bank decide my loan?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.339596688747406
+        },
+        {
+          "query": "mortgage eligibility if self-employed?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.506915807723999
+        },
+        {
+          "query": "pull up debit from Tuesday",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.593271791934967
+        },
+        {
+          "query": "what was that 42 buck payment?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5188528895378113
+        },
+        {
+          "query": "where did my last transfer go?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3605944812297821
+        },
+        {
+          "query": "list ins and outs on my account",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3816709518432617
+        },
+        {
+          "query": "merchant on card entry? cannot place it",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.32793688774108887
+        },
+        {
+          "query": "cash left in account?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4618360698223114
+        },
+        {
+          "query": "available balance after holds?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4771384596824646
+        },
+        {
+          "query": "how much can I spend right now",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4448229968547821
+        },
+        {
+          "query": "savings total pls",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5073195099830627
+        },
+        {
+          "query": "check current funds on acct",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.31837427616119385
+        },
+        {
+          "query": "want a card application link",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3720710277557373
+        },
+        {
+          "query": "new cc eligibility?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5527746677398682
+        },
+        {
+          "query": "what docs to apply for a credit line",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.6753087639808655
+        },
+        {
+          "query": "could I sign up for a credit card",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5508871078491211
+        },
+        {
+          "query": "ways to request a bank credit card",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5624395608901978
+        },
+        {
+          "query": "cant get into online bank, forgot pass",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.3660249710083008
+        },
+        {
+          "query": "reset the sign-in secret on app",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.4103855490684509
+        },
+        {
+          "query": "new login pass pls",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5592016577720642
+        },
+        {
+          "query": "locked out after wrong pw",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5849326252937317
+        },
+        {
+          "query": "where is password recovery?",
+          "exact_overlap_existing": false,
+          "max_train_char_cosine": 0.5356944799423218
+        }
+      ]
+    }
+  },
+  "adversarial_per_intent": {
+    "balance_inquiry": {
+      "n": 5,
+      "correct_intent": 3,
+      "flagged_for_review": 0,
+      "mean_confidence": 0.8049706889334789,
+      "errors": [
+        {
+          "query": "cash left in account?",
+          "predicted": "fraud_report",
+          "confidence": 0.805,
+          "needs_review": false
+        },
+        {
+          "query": "available balance after holds?",
+          "predicted": "fraud_report",
+          "confidence": 0.622,
+          "needs_review": false
+        }
+      ]
+    },
+    "card_issue": {
+      "n": 5,
+      "correct_intent": 3,
+      "flagged_for_review": 3,
+      "mean_confidence": 0.5693130435505493,
+      "errors": [
+        {
+          "query": "card dead at the till",
+          "predicted": "credit_card_application",
+          "confidence": 0.51,
+          "needs_review": true
+        },
+        {
+          "query": "chip wont scan�tried twice",
+          "predicted": "fraud_report",
+          "confidence": 0.673,
+          "needs_review": false
+        }
+      ]
+    },
+    "credit_card_application": {
+      "n": 5,
+      "correct_intent": 4,
+      "flagged_for_review": 0,
+      "mean_confidence": 0.9031070785895559,
+      "errors": [
+        {
+          "query": "what docs to apply for a credit line",
+          "predicted": "loan_inquiry",
+          "confidence": 0.853,
+          "needs_review": false
+        }
+      ]
+    },
+    "forgot_pin": {
+      "n": 5,
+      "correct_intent": 2,
+      "flagged_for_review": 0,
+      "mean_confidence": 0.8857274329199221,
+      "errors": [
+        {
+          "query": "blanked on my cash-machine code",
+          "predicted": "fraud_report",
+          "confidence": 0.985,
+          "needs_review": false
+        },
+        {
+          "query": "too many wrong digits; cash code is blocked",
+          "predicted": "fraud_report",
+          "confidence": 0.894,
+          "needs_review": false
+        },
+        {
+          "query": "need new withdraw code dont know old one",
+          "predicted": "password_reset",
+          "confidence": 0.703,
+          "needs_review": false
+        }
+      ]
+    },
+    "fraud_report": {
+      "n": 5,
+      "correct_intent": 5,
+      "flagged_for_review": 0,
+      "mean_confidence": 0.8164998584082103,
+      "errors": []
+    },
+    "loan_inquiry": {
+      "n": 5,
+      "correct_intent": 5,
+      "flagged_for_review": 2,
+      "mean_confidence": 0.8869345101850058,
+      "errors": []
+    },
+    "out_of_scope": {
+      "n": 5,
+      "correct_intent": 0,
+      "flagged_for_review": 1,
+      "mean_confidence": 0.834366200202413,
+      "errors": [
+        {
+          "query": "package delivery is late",
+          "predicted": "transaction_query",
+          "confidence": 0.941,
+          "needs_review": false
+        },
+        {
+          "query": "teach me to play chess",
+          "predicted": "fraud_report",
+          "confidence": 0.885,
+          "needs_review": false
+        },
+        {
+          "query": "what time does the cinema start",
+          "predicted": "loan_inquiry",
+          "confidence": 0.565,
+          "needs_review": true
+        },
+        {
+          "query": "phone screen is cracked",
+          "predicted": "fraud_report",
+          "confidence": 0.803,
+          "needs_review": false
+        },
+        {
+          "query": "write a birthday greeting",
+          "predicted": "fraud_report",
+          "confidence": 0.978,
+          "needs_review": false
+        }
+      ]
+    },
+    "password_reset": {
+      "n": 5,
+      "correct_intent": 5,
+      "flagged_for_review": 0,
+      "mean_confidence": 0.9266439787513155,
+      "errors": []
+    },
+    "transaction_query": {
+      "n": 5,
+      "correct_intent": 2,
+      "flagged_for_review": 2,
+      "mean_confidence": 0.8486369630600434,
+      "errors": [
+        {
+          "query": "pull up debit from Tuesday",
+          "predicted": "fraud_report",
+          "confidence": 0.94,
+          "needs_review": false
+        },
+        {
+          "query": "list ins and outs on my account",
+          "predicted": "fraud_report",
+          "confidence": 0.854,
+          "needs_review": false
+        },
+        {
+          "query": "merchant on card entry? cannot place it",
+          "predicted": "fraud_report",
+          "confidence": 0.568,
+          "needs_review": true
+        }
+      ]
+    }
+  },
+  "existing_behavioral_suite": {
+    "n": 29,
+    "in_domain_n": 25,
+    "in_domain_correct": 24,
+    "oos_n": 4,
+    "oos_flagged": 3
+  },
+  "raw_data": {
+    "rows": 5000,
+    "distinct_after_project_normalization": 4974,
+    "excluded_examples": [
+      {
+        "query": "reset my banking password ty",
+        "intent": "password_reset"
+      },
+      {
+        "query": "what�s that charge i don�t recognize",
+        "intent": "transaction_query"
+      },
+      {
+        "query": "what�s that random $$$ i spent",
+        "intent": "transaction_query"
+      }
+    ],
+    "originals_excluded_from_enriched": 3
+  }
+}

@@ -1,0 +1,8 @@
+experiment,val_macro_f1
+TF-IDF+LR text normalization: lemmatized,0.9665
+TF-IDF+LR text normalization: stemmed,0.9676
+TF-IDF+LR text normalization: tokens only,0.9624
+Word2Vec CBOW pooling: mean (+LR),0.9327
+Word2Vec CBOW pooling: idf-weighted (+LR),0.909
+Word2Vec SkipGram pooling: mean (+LR),0.9375
+Word2Vec SkipGram pooling: idf-weighted (+LR),0.909

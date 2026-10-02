@@ -1,0 +1,118 @@
+[
+  {
+    "query": "My debit card is not working.",
+    "expected": "card_issue"
+  },
+  {
+    "query": "My credit card stopped working this morning.",
+    "expected": "card_issue"
+  },
+  {
+    "query": "The magnetic strip on my card is damaged.",
+    "expected": "card_issue"
+  },
+  {
+    "query": "my atm card got stuck in the machine",
+    "expected": "card_issue"
+  },
+  {
+    "query": "I forgot my ATM PIN.",
+    "expected": "forgot_pin"
+  },
+  {
+    "query": "cant remember my debit card pin",
+    "expected": "forgot_pin"
+  },
+  {
+    "query": "My PIN is blocked after three wrong attempts",
+    "expected": "forgot_pin"
+  },
+  {
+    "query": "how do i reset my atm pin",
+    "expected": "forgot_pin"
+  },
+  {
+    "query": "Someone charged $450 in Paris on my visa card!",
+    "expected": "fraud_report"
+  },
+  {
+    "query": "I did not make this transaction, please block my account",
+    "expected": "fraud_report"
+  },
+  {
+    "query": "my account was hacked, help!!",
+    "expected": "fraud_report"
+  },
+  {
+    "query": "What are the interest rates for a personal loan?",
+    "expected": "loan_inquiry"
+  },
+  {
+    "query": "how long does home loan approval take",
+    "expected": "loan_inquiry"
+  },
+  {
+    "query": "can i get a loan to buy a car",
+    "expected": "loan_inquiry"
+  },
+  {
+    "query": "Show me my last five transactions",
+    "expected": "transaction_query"
+  },
+  {
+    "query": "what is this 250 dollar charge from amazon on my statement",
+    "expected": "transaction_query"
+  },
+  {
+    "query": "How much money is left in my savings account?",
+    "expected": "balance_inquiry"
+  },
+  {
+    "query": "what's my current balance",
+    "expected": "balance_inquiry"
+  },
+  {
+    "query": "check my checking account balance pls",
+    "expected": "balance_inquiry"
+  },
+  {
+    "query": "How do I apply for a credit card?",
+    "expected": "credit_card_application"
+  },
+  {
+    "query": "i want a new credit card, what documents do i need",
+    "expected": "credit_card_application"
+  },
+  {
+    "query": "status of my credit card application",
+    "expected": "credit_card_application"
+  },
+  {
+    "query": "I forgot my online banking password.",
+    "expected": "password_reset"
+  },
+  {
+    "query": "reset my netbanking password",
+    "expected": "password_reset"
+  },
+  {
+    "query": "pls send me a new password link",
+    "expected": "password_reset"
+  },
+  {
+    "query": "what's the weather like today",
+    "expected": "out_of_scope"
+  },
+  {
+    "query": "who won the cricket match yesterday",
+    "expected": "out_of_scope"
+  },
+  {
+    "query": "tell me a joke",
+    "expected": "out_of_scope"
+  },
+  {
+    "query": "recommend a good pizza place nearby",
+    "expected": "out_of_scope"
+  }
+]

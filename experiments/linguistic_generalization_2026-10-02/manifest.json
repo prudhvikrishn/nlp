@@ -1,0 +1,44 @@
+{
+  "experiment": "linguistic_generalization_2026-10-02",
+  "training_additions": 145,
+  "additions_per_intent": {
+    "card_issue": 20,
+    "forgot_pin": 20,
+    "transaction_query": 20,
+    "password_reset": 20,
+    "balance_inquiry": 20,
+    "credit_card_application": 15,
+    "loan_inquiry": 15,
+    "fraud_report": 15
+  },
+  "external_eval_rows": 90,
+  "external_in_domain_rows": 80,
+  "external_oos_rows": 10,
+  "train_before": 3856,
+  "train_after": 4001,
+  "seed": 42,
+  "architecture": "Calibrated LinearSVC (sigmoid, cv=5), hybrid features; same C=1.0/class_weight=balanced/random_state=42",
+  "training_additions_exact_overlap_count": 0,
+  "external_eval_exact_overlap_count": 0,
+  "existing_inputs_sha256_before": {
+    "data\\processed\\train.csv": "41941567607d5b1f59fc14a88eac587205ea0174a6377377b2cce51d351d8da7",
+    "data\\processed\\val.csv": "cf57fe151f65bce8b3f8342c85edb1df5528ef0e798d0ea0d7829afec043c41e",
+    "data\\processed\\test.csv": "58877605079220f1013a7dd127e474bcba974baabcee10b5cf4412621d1ef2ca",
+    "data\\benchmarks\\behavioral_test_suite.json": "174e5fd47c1e9b0b9d6aaa9232717589edaecf1cdbf4705a9eb8ab4558b398c5",
+    "reports\\leakage_audit_2026-10-02\\paraphrase_eval.json": "c6309391977c213dc4af678670db8a23876b1761c7af3ed8372bca25dfe29044",
+    "reports\\leakage_audit_2026-10-02\\adversarial_eval.json": "f89f6616c134ee226dd9c118e1c51679f7c642dcff7aaee9d60a97bc2efb8962"
+  },
+  "baseline_thresholds": {
+    "confidence": 0.6,
+    "similarity": 0.4106201499443938
+  },
+  "enriched_validation_thresholds": {
+    "confidence": 0.6,
+    "similarity": 0.4114807837923266
+  },
+  "new_external_max_nearest_train_similarity_baseline": 0.9049172060276879,
+  "new_external_max_nearest_train_similarity_enriched": 0.9058366631182945,
+  "training_additions_sha256": "24b7ff81e452df5d80f1aa9697fdf2346b9e739c07861dc51ba740b2c50c7ff8",
+  "expanded_external_eval_sha256": "117203675e944a65136edfdf57841345c6ad9dc7d606c1f3aa90aeb0373eee7e",
+  "external_disclaimer": "Hand-authored diagnostic evaluation; not an independently sampled population benchmark. It was frozen before scoring and not used for fitting, feature fitting, model selection, or threshold selection."
+}

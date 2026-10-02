@@ -1,0 +1,11 @@
+,n_chars,n_chars,n_chars,n_words,n_words,n_words
+,mean,median,max,mean,median,max
+intent,,,,,,
+balance_inquiry,43.89,46.0,74,8.32,8.0,14
+card_issue,53.22,52.0,85,10.25,10.0,15
+credit_card_application,52.92,51.0,107,10.3,11.0,18
+forgot_pin,48.26,47.0,89,9.88,10.0,18
+fraud_report,37.66,38.0,91,7.43,7.0,19
+loan_inquiry,47.34,44.0,112,8.98,9.0,19
+password_reset,40.09,37.0,76,7.36,7.0,12
+transaction_query,40.73,40.0,68,7.69,7.0,15

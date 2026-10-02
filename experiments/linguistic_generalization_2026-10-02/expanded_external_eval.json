@@ -1,0 +1,362 @@
+[
+  {
+    "query":"The checkout terminal rejects my plastic every time I insert it.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"My bank card cannot complete a tap payment at the café.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"The ATM retained my card before I could finish the withdrawal.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"I received a new card but its first-use setup will not complete.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"The chip has lifted from the card and payment machines cannot read it.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"At several shops the card is returned with a 'not supported' message.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"My card's tap function has stopped responding this week.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"An ATM says the card data cannot be read, then ejects it.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"The card is physically warped and the till refuses it.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"None of the payment terminals recognize the card in my wallet.",
+    "intent":"card_issue"
+  },
+  {
+    "query":"I cannot recall the digits needed to approve a cash withdrawal.",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"The number I use at the cashpoint is gone from memory.",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"How can I replace the secret code linked to my debit card?",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"I have locked myself out of cash access by guessing the code wrong.",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"I know the app password but not the card's four-number code.",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"Where do I request a new number for authorizing in-person payments?",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"The cash machine wants a code I haven't used in ages and cannot remember.",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"Could you reset the card's private number after too many failed tries?",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"I forgot the digits that let me withdraw notes from an ATM.",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"My cash-withdrawal code is unknown to me; what is the recovery route?",
+    "intent":"forgot_pin"
+  },
+  {
+    "query":"I need to see the sequence of payments posted to my account yesterday.",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"Can you find which company received my latest card payment?",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"A transfer I sent is missing; show its status and destination.",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"Please pull the record for the deposit made on the 14th.",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"What was the reference and posting time for my last bill payment?",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"I want to inspect recent account movements one by one.",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"Has the shop refund appeared among my recent account entries?",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"Show the merchant and date for the unfamiliar line on my statement.",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"Please list payments and deposits from the previous fortnight.",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"I need proof of the bank transfer I made to my building manager.",
+    "intent":"transaction_query"
+  },
+  {
+    "query":"I cannot get past the bank website login because my access phrase is forgotten.",
+    "intent":"password_reset"
+  },
+  {
+    "query":"The secret I type to open my mobile account needs replacing.",
+    "intent":"password_reset"
+  },
+  {
+    "query":"My internet banking sign-in has been disabled after failed attempts.",
+    "intent":"password_reset"
+  },
+  {
+    "query":"Can I receive a link to recover my digital account credential?",
+    "intent":"password_reset"
+  },
+  {
+    "query":"I remember my card code, but not the word for logging into the app.",
+    "intent":"password_reset"
+  },
+  {
+    "query":"The bank portal does not accept my saved sign-in details anymore.",
+    "intent":"password_reset"
+  },
+  {
+    "query":"I need to regain web access after losing my login passphrase.",
+    "intent":"password_reset"
+  },
+  {
+    "query":"Where can I update the credential protecting my online profile?",
+    "intent":"password_reset"
+  },
+  {
+    "query":"My digital account is inaccessible because I forgot the login secret.",
+    "intent":"password_reset"
+  },
+  {
+    "query":"Please help me create a replacement credential for website access.",
+    "intent":"password_reset"
+  },
+  {
+    "query":"How much money remains for me to use this week?",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"Could you give me today's available amount in my main account?",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"I need to know the funds left after pending card holds.",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"What is the total sitting in my reserve savings?",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"Check whether my account has enough funds for the upcoming rent.",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"Tell me the amount I could withdraw right now.",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"I only need the current account figure, not a breakdown of activity.",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"How much is still available in the account I use for groceries?",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"Please confirm the current value of my emergency savings.",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"What funds are accessible before my next deposit arrives?",
+    "intent":"balance_inquiry"
+  },
+  {
+    "query":"I want the bank to consider me for a new credit facility on a card.",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"How can a customer request their first bank credit card?",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"Please share the application steps for your credit products.",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"I am ready to ask for a card that lets me borrow for purchases.",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"What information is needed to assess a request for a credit card?",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"Can I submit a request for a bank card with a credit limit?",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"I would like to see the eligibility process before applying for credit.",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"Where do existing customers ask the bank to issue a credit card?",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"Can you help me begin the process of getting a new credit card?",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"I am interested in applying for a card account with borrowing facilities.",
+    "intent":"credit_card_application"
+  },
+  {
+    "query":"Could I spread a home improvement bill through bank borrowing?",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"What monthly repayment should I expect for vehicle finance?",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"I would like details about borrowing to consolidate existing balances.",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"Does the bank lend toward tuition and other education costs?",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"What would the bank assess before approving a mortgage request?",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"Can you explain the available repayment terms for a personal loan?",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"I need capital for equipment; what borrowing products could suit a small firm?",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"How soon might I hear back after requesting a home loan?",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"Is a fixed-rate borrowing option available for a car purchase?",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"Please estimate the cost of borrowing twelve thousand over four years.",
+    "intent":"loan_inquiry"
+  },
+  {
+    "query":"A transfer has left my account and I never instructed it.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"I suspect somebody has been using my card information without consent.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"An alert shows a purchase I cannot account for and did not approve.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"I think a stranger has gained access to my online bank profile.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"There is a cash withdrawal in the log that was not made by me.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"My personal banking details may have been exposed to a scammer.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"A payment went to a recipient I have never dealt with; please investigate.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"My card was with me, but a foreign transaction appeared on the account.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"Someone took over my digital banking and I need to protect my money.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"I never authorized the debit listed under an unfamiliar business name.",
+    "intent":"fraud_report"
+  },
+  {
+    "query":"Can you suggest a weekend hiking route?",
+    "intent":"out_of_scope"
+  },
+  {
+    "query":"Please summarize this book chapter for me.",
+    "intent":"out_of_scope"
+  },
+  {
+    "query":"What is the capital of Portugal?",
+    "intent":"out_of_scope"
+  },
+  {
+    "query":"Help me debug a Python script.",
+    "intent":"out_of_scope"
+  },
+  {
+    "query":"Where can I buy concert tickets tonight?",
+    "intent":"out_of_scope"
+  },
+  {
+    "query":"Write a short poem about autumn.",
+    "intent":"out_of_scope"
+  },
+  {
+    "query":"How do I bake sourdough bread?",
+    "intent":"out_of_scope"
+  },
+  {
+    "query":"Can you recommend a film for children?",
+    "intent":"out_of_scope"
+  },
+  {
+    "query":"My bicycle chain keeps slipping; how do I fix it?",
+    "intent":"out_of_scope"
+  },
+  {
+    "query":"Translate this paragraph into French.",
+    "intent":"out_of_scope"
+  }
+]

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}BSD Bank | Customer Support{% endblock %}
+{% block content %}
+  <section class="card">
+    <h1>How can we help you?</h1>
+    <p class="muted">Enter your name and describe your banking question or issue. We will classify it and route it to the support team.</p>
+    <div class="notice warning">For your safety, do not include passwords, PINs, one-time codes, or full account or card numbers.</div>
+    <form method="post" action="{{ url_for('submit_query') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <label for="customer_name">Your name</label>
+      <input id="customer_name" name="customer_name" maxlength="100" autocomplete="name" required>
+      <label for="query">Your query</label>
+      <textarea id="query" name="query" maxlength="2000" required placeholder="For example: I forgot the PIN I use at the ATM."></textarea>
+      <button type="submit">Submit query</button>
+    </form>
+    {% if result %}
+      <div class="result" role="status">
+        <p><strong>Your query has been submitted.</strong></p>
+        <h2>Your query category: {{ result.display }}</h2>
+        <p>Classification confidence: {{ "%.1f"|format(result.confidence * 100) }}%</p>
+        {% if result.needs_review %}
+          <p>A support representative should review this query because the wording may be unfamiliar or uncertain.</p>
+        {% else %}
+          <p>Your query has been recorded for the BSD Bank support team.</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </section>
+{% endblock %}

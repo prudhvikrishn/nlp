@@ -1,0 +1,46 @@
+query,expected,predicted,confidence,margin,nearest_train_similarity,needs_review
+card dead at the till,card_issue,credit_card_application,0.5095271132556477,0.16363057848865548,0.5208896743315092,True
+chip wont scan—tried twice,card_issue,fraud_report,0.6733178897725572,0.3909245793531309,0.6737380439546387,False
+my debit keeps getting spat back,card_issue,card_issue,0.4892902818900827,0.004576824143267877,0.5003351990642196,True
+cant tap n pay w my bank card,card_issue,card_issue,0.5390852607826437,0.08189064854784822,0.4147216588574338,True
+the plastic wont work in ATM,card_issue,card_issue,0.6353446720518153,0.2716697442215699,0.619008872675808,False
+forgot cash pin,forgot_pin,forgot_pin,0.9652220246944638,0.9338790258614558,0.7109625985899488,False
+blanked on my cash-machine code,forgot_pin,fraud_report,0.9850820652834008,0.9794865967479055,0.4235577856155168,False
+atm pin? totally forgot it,forgot_pin,forgot_pin,0.8808598326377061,0.7655568132690833,0.49275677968260545,False
+too many wrong digits; cash code is blocked,forgot_pin,fraud_report,0.8943709598492713,0.83617914864071,0.4115896286910383,False
+need new withdraw code dont know old one,forgot_pin,password_reset,0.7031022821347686,0.46192969677869206,0.4636339145864932,False
+not mine: 37 dollars at shop,fraud_report,fraud_report,0.989418498485286,0.9824008270547075,0.632051822214708,False
+who charged me? I did not buy that,fraud_report,fraud_report,0.7606719234879551,0.5215820010605707,0.7291987913469897,False
+bank app says purchase but it was not me,fraud_report,fraud_report,0.6677037937253967,0.48048612799694457,0.5022288065846441,False
+someone drained my checking acct,fraud_report,fraud_report,0.6845309881166518,0.37263293985906354,0.5204505924894534,False
+"fraud maybe, card used in another city",fraud_report,fraud_report,0.9801740882257619,0.9722312054325675,0.415976499424465,False
+car loan rate? just shopping around,loan_inquiry,loan_inquiry,0.9965935738789782,0.9940064548071748,0.5794390651821241,False
+"need funds for house repairs, what can I borrow?",loan_inquiry,loan_inquiry,0.5804853594245495,0.2700660432500161,0.5707810110298399,True
+borrow for car—monthly cost?,loan_inquiry,loan_inquiry,0.9330344708787681,0.8718051312337756,0.5467110884080838,False
+when will the bank decide my loan?,loan_inquiry,loan_inquiry,0.9960329946662787,0.9933172850424161,0.3454445018825696,True
+mortgage eligibility if self-employed?,loan_inquiry,loan_inquiry,0.9285261520764543,0.8601842781492017,0.44056605607120713,False
+pull up debit from Tuesday,transaction_query,fraud_report,0.9400447683716149,0.9071838551080523,0.539433979984617,False
+what was that 42 buck payment?,transaction_query,transaction_query,0.9584186847316525,0.922864261083717,0.5796820149378107,False
+where did my last transfer go?,transaction_query,transaction_query,0.922619247131475,0.8532084073430372,0.39398270814853703,True
+list ins and outs on my account,transaction_query,fraud_report,0.8537652493492984,0.7506207335713101,0.5905748216744912,False
+merchant on card entry? cannot place it,transaction_query,fraud_report,0.5683368657161768,0.17119891914887697,0.3519595180626451,True
+cash left in account?,balance_inquiry,fraud_report,0.80537326035536,0.6119556820624289,0.443853363016692,False
+available balance after holds?,balance_inquiry,fraud_report,0.6218674449285222,0.2729549857253798,0.47620502372963697,False
+how much can I spend right now,balance_inquiry,balance_inquiry,0.8031263295178634,0.6327685104935848,0.6895823355756246,False
+savings total pls,balance_inquiry,balance_inquiry,0.9982376638974874,0.9974290667635707,0.5987248545275109,False
+check current funds on acct,balance_inquiry,balance_inquiry,0.796248745968162,0.5935936187410599,0.4386137836911952,False
+want a card application link,credit_card_application,credit_card_application,0.9728723299708408,0.9559999216922287,0.5114944787466876,False
+new cc eligibility?,credit_card_application,credit_card_application,0.9949243451950665,0.9925542705599302,0.5496845658363245,False
+what docs to apply for a credit line,credit_card_application,loan_inquiry,0.8530871298333785,0.7158103283323543,0.6973669305868,False
+could I sign up for a credit card,credit_card_application,credit_card_application,0.9395679527378202,0.9117006114334202,0.6317014572101874,False
+ways to request a bank credit card,credit_card_application,credit_card_application,0.7550836352106736,0.5467652231579587,0.48872145014196056,False
+"cant get into online bank, forgot pass",password_reset,password_reset,0.9132064723073426,0.8607539821689655,0.49031619912091784,False
+reset the sign-in secret on app,password_reset,password_reset,0.9523675608775202,0.9330242944290164,0.5260106910399532,False
+new login pass pls,password_reset,password_reset,0.9900726003353932,0.9843583828518769,0.6714308008823889,False
+locked out after wrong pw,password_reset,password_reset,0.7941524632415218,0.6837286773812687,0.7423942545272624,False
+where is password recovery?,password_reset,password_reset,0.9834207969947999,0.9768500817012548,0.7025626121719685,False
+package delivery is late,out_of_scope,transaction_query,0.9410383475669694,0.8872172583256203,0.6369812881383878,False
+teach me to play chess,out_of_scope,fraud_report,0.8853792213797934,0.7855208760029195,0.5242166402294085,False
+what time does the cinema start,out_of_scope,loan_inquiry,0.5651587817208898,0.2159098958109411,0.4614796541979574,True
+phone screen is cracked,out_of_scope,fraud_report,0.8025248535553449,0.615551241456137,0.649968545049278,False
+write a birthday greeting,out_of_scope,fraud_report,0.9777297967890679,0.9639870193331775,0.5566623229623187,False

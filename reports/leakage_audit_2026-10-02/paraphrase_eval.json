@@ -1,0 +1,182 @@
+[
+  {
+    "query": "Why does my bank card get declined at every shop even though I have funds?",
+    "expected": "card_issue"
+  },
+  {
+    "query": "The cash machine keeps spitting my card back out.",
+    "expected": "card_issue"
+  },
+  {
+    "query": "I cannot make a contactless payment with the card in my wallet.",
+    "expected": "card_issue"
+  },
+  {
+    "query": "The payment terminal says the chip cannot be read.",
+    "expected": "card_issue"
+  },
+  {
+    "query": "My plastic card has cracked and the reader will not accept it.",
+    "expected": "card_issue"
+  },
+  {
+    "query": "What is the number I need to withdraw cash? I have forgotten it.",
+    "expected": "forgot_pin"
+  },
+  {
+    "query": "Can I set a replacement code for cash withdrawals?",
+    "expected": "forgot_pin"
+  },
+  {
+    "query": "I entered my cash machine code incorrectly too many times and now it is locked.",
+    "expected": "forgot_pin"
+  },
+  {
+    "query": "I have drawn a blank on the four-digit number for my cash card.",
+    "expected": "forgot_pin"
+  },
+  {
+    "query": "How can I recover the secret digits I use at an ATM?",
+    "expected": "forgot_pin"
+  },
+  {
+    "query": "There is a debit on my statement that I never authorized; please secure my account.",
+    "expected": "fraud_report"
+  },
+  {
+    "query": "Someone accessed my bank profile while I was asleep.",
+    "expected": "fraud_report"
+  },
+  {
+    "query": "I got an alert for a purchase I did not make.",
+    "expected": "fraud_report"
+  },
+  {
+    "query": "Money disappeared after a suspicious sign-in to my account.",
+    "expected": "fraud_report"
+  },
+  {
+    "query": "An unknown person seems to have used my banking details.",
+    "expected": "fraud_report"
+  },
+  {
+    "query": "What would monthly repayments look like if I borrowed for a car?",
+    "expected": "loan_inquiry"
+  },
+  {
+    "query": "Do you offer mortgages, and what are the eligibility rules?",
+    "expected": "loan_inquiry"
+  },
+  {
+    "query": "I am comparing borrowing rates before taking out a personal loan.",
+    "expected": "loan_inquiry"
+  },
+  {
+    "query": "How long does the bank take to decide on a borrowing request?",
+    "expected": "loan_inquiry"
+  },
+  {
+    "query": "Could I finance a home renovation through your bank?",
+    "expected": "loan_inquiry"
+  },
+  {
+    "query": "List the payments that left my account this week.",
+    "expected": "transaction_query"
+  },
+  {
+    "query": "Can you identify the merchant behind this entry on my statement?",
+    "expected": "transaction_query"
+  },
+  {
+    "query": "I need to review my account activity from yesterday.",
+    "expected": "transaction_query"
+  },
+  {
+    "query": "Show deposits and withdrawals from last month.",
+    "expected": "transaction_query"
+  },
+  {
+    "query": "Which shop processed the forty-two dollar purchase on Tuesday?",
+    "expected": "transaction_query"
+  },
+  {
+    "query": "How much is available to spend in my current account?",
+    "expected": "balance_inquiry"
+  },
+  {
+    "query": "Tell me the remaining funds in my savings.",
+    "expected": "balance_inquiry"
+  },
+  {
+    "query": "Can you look up the amount I have in my checking account?",
+    "expected": "balance_inquiry"
+  },
+  {
+    "query": "I need the up-to-date total for my bank account.",
+    "expected": "balance_inquiry"
+  },
+  {
+    "query": "What funds are left after pending payments?",
+    "expected": "balance_inquiry"
+  },
+  {
+    "query": "Which paperwork do I need to request a new card?",
+    "expected": "credit_card_application"
+  },
+  {
+    "query": "Could I apply for a credit line with your bank?",
+    "expected": "credit_card_application"
+  },
+  {
+    "query": "Compare your cards and tell me how to sign up.",
+    "expected": "credit_card_application"
+  },
+  {
+    "query": "I would like to start an application for a bank credit card.",
+    "expected": "credit_card_application"
+  },
+  {
+    "query": "What are the criteria for being approved for a new credit card?",
+    "expected": "credit_card_application"
+  },
+  {
+    "query": "I cannot sign in because I do not know my online banking passphrase.",
+    "expected": "password_reset"
+  },
+  {
+    "query": "Send instructions so I can choose a new login credential.",
+    "expected": "password_reset"
+  },
+  {
+    "query": "My mobile banking login secret is not coming to mind.",
+    "expected": "password_reset"
+  },
+  {
+    "query": "I have been locked out after entering the wrong password.",
+    "expected": "password_reset"
+  },
+  {
+    "query": "Where can I change the code used to access internet banking?",
+    "expected": "password_reset"
+  },
+  {
+    "query": "Can you tell me the score of last night\u2019s game?",
+    "expected": "out_of_scope"
+  },
+  {
+    "query": "What is a good recipe for tomato soup?",
+    "expected": "out_of_scope"
+  },
+  {
+    "query": "Please translate this email into Spanish.",
+    "expected": "out_of_scope"
+  },
+  {
+    "query": "My phone screen is cracked; where can I repair it?",
+    "expected": "out_of_scope"
+  },
+  {
+    "query": "Can you write a birthday message for my sister?",
+    "expected": "out_of_scope"
+  }
+]

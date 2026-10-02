@@ -1,0 +1,227 @@
+[
+  {
+    "query": "card dead at the till",
+    "expected": "card_issue",
+    "style": "adversarial"
+  },
+  {
+    "query": "chip wont scan\u2014tried twice",
+    "expected": "card_issue",
+    "style": "adversarial"
+  },
+  {
+    "query": "my debit keeps getting spat back",
+    "expected": "card_issue",
+    "style": "adversarial"
+  },
+  {
+    "query": "cant tap n pay w my bank card",
+    "expected": "card_issue",
+    "style": "adversarial"
+  },
+  {
+    "query": "the plastic wont work in ATM",
+    "expected": "card_issue",
+    "style": "adversarial"
+  },
+  {
+    "query": "forgot cash pin",
+    "expected": "forgot_pin",
+    "style": "adversarial"
+  },
+  {
+    "query": "blanked on my cash-machine code",
+    "expected": "forgot_pin",
+    "style": "adversarial"
+  },
+  {
+    "query": "atm pin? totally forgot it",
+    "expected": "forgot_pin",
+    "style": "adversarial"
+  },
+  {
+    "query": "too many wrong digits; cash code is blocked",
+    "expected": "forgot_pin",
+    "style": "adversarial"
+  },
+  {
+    "query": "need new withdraw code dont know old one",
+    "expected": "forgot_pin",
+    "style": "adversarial"
+  },
+  {
+    "query": "not mine: 37 dollars at shop",
+    "expected": "fraud_report",
+    "style": "adversarial"
+  },
+  {
+    "query": "who charged me? I did not buy that",
+    "expected": "fraud_report",
+    "style": "adversarial"
+  },
+  {
+    "query": "bank app says purchase but it was not me",
+    "expected": "fraud_report",
+    "style": "adversarial"
+  },
+  {
+    "query": "someone drained my checking acct",
+    "expected": "fraud_report",
+    "style": "adversarial"
+  },
+  {
+    "query": "fraud maybe, card used in another city",
+    "expected": "fraud_report",
+    "style": "adversarial"
+  },
+  {
+    "query": "car loan rate? just shopping around",
+    "expected": "loan_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "need funds for house repairs, what can I borrow?",
+    "expected": "loan_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "borrow for car\u2014monthly cost?",
+    "expected": "loan_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "when will the bank decide my loan?",
+    "expected": "loan_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "mortgage eligibility if self-employed?",
+    "expected": "loan_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "pull up debit from Tuesday",
+    "expected": "transaction_query",
+    "style": "adversarial"
+  },
+  {
+    "query": "what was that 42 buck payment?",
+    "expected": "transaction_query",
+    "style": "adversarial"
+  },
+  {
+    "query": "where did my last transfer go?",
+    "expected": "transaction_query",
+    "style": "adversarial"
+  },
+  {
+    "query": "list ins and outs on my account",
+    "expected": "transaction_query",
+    "style": "adversarial"
+  },
+  {
+    "query": "merchant on card entry? cannot place it",
+    "expected": "transaction_query",
+    "style": "adversarial"
+  },
+  {
+    "query": "cash left in account?",
+    "expected": "balance_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "available balance after holds?",
+    "expected": "balance_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "how much can I spend right now",
+    "expected": "balance_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "savings total pls",
+    "expected": "balance_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "check current funds on acct",
+    "expected": "balance_inquiry",
+    "style": "adversarial"
+  },
+  {
+    "query": "want a card application link",
+    "expected": "credit_card_application",
+    "style": "adversarial"
+  },
+  {
+    "query": "new cc eligibility?",
+    "expected": "credit_card_application",
+    "style": "adversarial"
+  },
+  {
+    "query": "what docs to apply for a credit line",
+    "expected": "credit_card_application",
+    "style": "adversarial"
+  },
+  {
+    "query": "could I sign up for a credit card",
+    "expected": "credit_card_application",
+    "style": "adversarial"
+  },
+  {
+    "query": "ways to request a bank credit card",
+    "expected": "credit_card_application",
+    "style": "adversarial"
+  },
+  {
+    "query": "cant get into online bank, forgot pass",
+    "expected": "password_reset",
+    "style": "adversarial"
+  },
+  {
+    "query": "reset the sign-in secret on app",
+    "expected": "password_reset",
+    "style": "adversarial"
+  },
+  {
+    "query": "new login pass pls",
+    "expected": "password_reset",
+    "style": "adversarial"
+  },
+  {
+    "query": "locked out after wrong pw",
+    "expected": "password_reset",
+    "style": "adversarial"
+  },
+  {
+    "query": "where is password recovery?",
+    "expected": "password_reset",
+    "style": "adversarial"
+  },
+  {
+    "query": "package delivery is late",
+    "expected": "out_of_scope",
+    "style": "adversarial"
+  },
+  {
+    "query": "teach me to play chess",
+    "expected": "out_of_scope",
+    "style": "adversarial"
+  },
+  {
+    "query": "what time does the cinema start",
+    "expected": "out_of_scope",
+    "style": "adversarial"
+  },
+  {
+    "query": "phone screen is cracked",
+    "expected": "out_of_scope",
+    "style": "adversarial"
+  },
+  {
+    "query": "write a birthday greeting",
+    "expected": "out_of_scope",
+    "style": "adversarial"
+  }
+]

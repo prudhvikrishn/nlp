@@ -1,0 +1,8 @@
+{
+  "queries": 5510,
+  "tokens": 46329,
+  "vocabulary": 2913,
+  "type_token_ratio": 0.0629,
+  "imbalance_ratio_max_to_min": 5.94,
+  "mean_words": 8.41
+}

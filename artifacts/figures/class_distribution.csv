@@ -1,0 +1,9 @@
+intent,count,percent
+loan_inquiry,1598,29.0
+fraud_report,1249,22.7
+transaction_query,1184,21.5
+balance_inquiry,323,5.9
+credit_card_application,318,5.8
+password_reset,299,5.4
+card_issue,270,4.9
+forgot_pin,269,4.9

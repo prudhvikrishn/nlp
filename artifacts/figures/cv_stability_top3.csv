@@ -1,0 +1,4 @@
+features,model,cv_macro_f1_mean,cv_macro_f1_std
+hybrid,LinearSVC,0.9658,0.0075
+tfidf,LinearSVC,0.9675,0.0048
+tfidf,LogisticRegression,0.9665,0.0042

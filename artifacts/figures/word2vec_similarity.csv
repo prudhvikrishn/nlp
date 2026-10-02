@@ -1,0 +1,13 @@
+word_a,word_b,cosine,note,model
+stolen,fraud,,OOV: stolen,CBOW
+pin,password,0.423,,CBOW
+loan,balance,0.158,,CBOW
+card,debit,0.704,,CBOW
+dough,money,0.641,,CBOW
+charge,transaction,0.453,,CBOW
+stolen,fraud,,OOV: stolen,SkipGram
+pin,password,0.508,,SkipGram
+loan,balance,0.283,,SkipGram
+card,debit,0.633,,SkipGram
+dough,money,0.525,,SkipGram
+charge,transaction,0.502,,SkipGram

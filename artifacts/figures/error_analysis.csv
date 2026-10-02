@@ -1,0 +1,28 @@
+query,true_intent,predicted,confidence,source
+pls hurry—need 2 transfer $$$ ASAP!!,password_reset,fraud_report,0.967,original
+hey whats the $ in my account right now,balance_inquiry,fraud_report,0.955,original
+monies status: ??? halp,balance_inquiry,loan_inquiry,0.939,original
+my atm card will not swipe at the store,card_issue,fraud_report,0.931,synthetic
+can i fund my tuition here?,loan_inquiry,fraud_report,0.926,original
+"hey, my card will not swipe at the store",card_issue,fraud_report,0.91,synthetic
+I’d like to learn about in-branch application assistance services.,credit_card_application,loan_inquiry,0.906,original
+my credit card will not swipe at the store,card_issue,fraud_report,0.902,synthetic
+I would like to understand your fraud-prevention checks during onboarding.,credit_card_application,fraud_report,0.88,original
+What documentation do you require for self-employed applicants?,credit_card_application,loan_inquiry,0.846,original
+balance inquiry—hook me up pls,balance_inquiry,fraud_report,0.805,original
+yo card been jacked,fraud_report,credit_card_application,0.788,original
+tell me why my cash gone,fraud_report,transaction_query,0.778,original
+yo i messed up my login—pls fix it!,password_reset,fraud_report,0.708,original
+"hey, my bank card will not swipe at the store",card_issue,fraud_report,0.693,synthetic
+urgetn: my credit card will not swipe at the store pls help,card_issue,fraud_report,0.659,synthetic
+can u just gimme my balance alrdy,balance_inquiry,fraud_report,0.627,original
+nah nah i nevr go there,fraud_report,transaction_query,0.611,original
+Can you confirm if I placed the stop-payment?,fraud_report,transaction_query,0.604,original
+Can you provide instructions for uploading documents to the application portal?,credit_card_application,loan_inquiry,0.579,original
+my bal is -25 rn,fraud_report,balance_inquiry,0.561,original
+what’s that $20 i spent on??,transaction_query,fraud_report,0.531,original
+check my spend NAO i’m desperate,transaction_query,fraud_report,0.503,original
+"hey, atm card is not redaing at the atm",card_issue,fraud_report,0.503,synthetic
+atm retuned wrong note,fraud_report,forgot_pin,0.499,original
+what’s my financial situation rn? lol,balance_inquiry,loan_inquiry,0.421,original
+how they get my info??,fraud_report,balance_inquiry,0.371,original

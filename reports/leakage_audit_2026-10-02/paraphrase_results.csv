@@ -1,0 +1,46 @@
+query,expected,predicted,confidence,margin,nearest_train_similarity,needs_review
+Why does my bank card get declined at every shop even though I have funds?,card_issue,card_issue,0.8556611888618774,0.7604487607907238,0.513213380142317,False
+The cash machine keeps spitting my card back out.,card_issue,fraud_report,0.9559758149775179,0.914900936113376,0.3963552219451864,True
+I cannot make a contactless payment with the card in my wallet.,card_issue,fraud_report,0.9231073147631316,0.8492913235463855,0.5540256011138796,False
+The payment terminal says the chip cannot be read.,card_issue,card_issue,0.9611074750805452,0.9239091367278625,0.4234440716405376,False
+My plastic card has cracked and the reader will not accept it.,card_issue,card_issue,0.7634870495094875,0.539639838111502,0.5327085851259876,False
+What is the number I need to withdraw cash? I have forgotten it.,forgot_pin,fraud_report,0.601085193753916,0.3212455625247027,0.4230889976598874,False
+Can I set a replacement code for cash withdrawals?,forgot_pin,fraud_report,0.8631688493361203,0.7789067885642558,0.29940999035958366,True
+I entered my cash machine code incorrectly too many times and now it is locked.,forgot_pin,fraud_report,0.9096360938851273,0.8664361009450479,0.3155673791610435,True
+I have drawn a blank on the four-digit number for my cash card.,forgot_pin,fraud_report,0.5892342310111213,0.1823428664473884,0.42266437609658686,True
+How can I recover the secret digits I use at an ATM?,forgot_pin,fraud_report,0.8301655942267544,0.6906862911593734,0.43365036307075355,False
+There is a debit on my statement that I never authorized; please secure my account.,fraud_report,fraud_report,0.9835773896330625,0.9713201284757274,0.4814359471641298,False
+Someone accessed my bank profile while I was asleep.,fraud_report,fraud_report,0.9235178354381748,0.8687903212532847,0.2758016097643011,True
+I got an alert for a purchase I did not make.,fraud_report,fraud_report,0.9695056613236914,0.9403741908912884,0.6865507423364667,False
+Money disappeared after a suspicious sign-in to my account.,fraud_report,fraud_report,0.9720528374465273,0.9617165827995783,0.3384921772480782,True
+An unknown person seems to have used my banking details.,fraud_report,fraud_report,0.8674542924640237,0.8127045924528035,0.3817786112045651,True
+What would monthly repayments look like if I borrowed for a car?,loan_inquiry,loan_inquiry,0.8084558172429057,0.7027729106589539,0.566262663163707,False
+"Do you offer mortgages, and what are the eligibility rules?",loan_inquiry,loan_inquiry,0.997333001686018,0.9959515537273148,0.4347566310963763,False
+I am comparing borrowing rates before taking out a personal loan.,loan_inquiry,loan_inquiry,0.8482754451091964,0.7034569618186438,0.483125244681449,False
+How long does the bank take to decide on a borrowing request?,loan_inquiry,fraud_report,0.5766887479368844,0.37529118770025244,0.44725694210769007,True
+Could I finance a home renovation through your bank?,loan_inquiry,loan_inquiry,0.9895494844821187,0.9817505744440761,0.47745994740816877,False
+List the payments that left my account this week.,transaction_query,fraud_report,0.9376675575280917,0.8872519935715277,0.4025700444938532,True
+Can you identify the merchant behind this entry on my statement?,transaction_query,fraud_report,0.8668704605352635,0.7780902534933049,0.6261448435762578,False
+I need to review my account activity from yesterday.,transaction_query,fraud_report,0.9658677453469153,0.9539498697404526,0.3716620433092057,True
+Show deposits and withdrawals from last month.,transaction_query,fraud_report,0.775907860073801,0.5616999685922315,0.3602091198283517,True
+Which shop processed the forty-two dollar purchase on Tuesday?,transaction_query,transaction_query,0.775450747963621,0.5534535253093054,0.33008510761535204,True
+How much is available to spend in my current account?,balance_inquiry,balance_inquiry,0.9837864603453792,0.969344281709174,0.6848407559291729,False
+Tell me the remaining funds in my savings.,balance_inquiry,balance_inquiry,0.9905576100015135,0.9846918826345401,0.7162031073439554,False
+Can you look up the amount I have in my checking account?,balance_inquiry,fraud_report,0.5805721563972172,0.16337808894862427,0.4905525811466481,True
+I need the up-to-date total for my bank account.,balance_inquiry,balance_inquiry,0.5945995224024234,0.22524764775596628,0.43521511787355605,True
+What funds are left after pending payments?,balance_inquiry,fraud_report,0.8424261368456166,0.7744141870144492,0.37291874025216853,True
+Which paperwork do I need to request a new card?,credit_card_application,credit_card_application,0.8589969591104263,0.7837028966375992,0.4602016597987302,False
+Could I apply for a credit line with your bank?,credit_card_application,loan_inquiry,0.9156622350693265,0.8330583999015517,0.785549798842665,False
+Compare your cards and tell me how to sign up.,credit_card_application,fraud_report,0.4094147969114957,0.07887117558472734,0.4900496664228481,True
+I would like to start an application for a bank credit card.,credit_card_application,credit_card_application,0.9569232140234127,0.9233158754071884,0.4191511491314945,False
+What are the criteria for being approved for a new credit card?,credit_card_application,credit_card_application,0.8381595643976348,0.7097835600685658,0.5350057356808243,False
+I cannot sign in because I do not know my online banking passphrase.,password_reset,fraud_report,0.7564325335686691,0.5314167214404164,0.4453429186988002,False
+Send instructions so I can choose a new login credential.,password_reset,password_reset,0.8544192882433006,0.7856694336663563,0.4257822701579229,False
+My mobile banking login secret is not coming to mind.,password_reset,fraud_report,0.6308353683601949,0.31798826147528564,0.34641029191611783,True
+I have been locked out after entering the wrong password.,password_reset,password_reset,0.6245885067871538,0.42138468037286136,0.6187826993212621,False
+Where can I change the code used to access internet banking?,password_reset,fraud_report,0.5882598833282404,0.21196341851755202,0.27438430870200703,True
+Can you tell me the score of last night’s game?,out_of_scope,transaction_query,0.7926147287726477,0.7032159696643763,0.5219834469378831,False
+What is a good recipe for tomato soup?,out_of_scope,transaction_query,0.8156741533974661,0.6401203428568605,0.4946764851796213,False
+Please translate this email into Spanish.,out_of_scope,fraud_report,0.6128569992549497,0.2359237874598602,0.6697030115410696,False
+My phone screen is cracked; where can I repair it?,out_of_scope,fraud_report,0.7443349335332321,0.49909871614106305,0.649968545049278,False
+Can you write a birthday message for my sister?,out_of_scope,fraud_report,0.9620693458685692,0.937901583197342,0.5566623229623187,False

@@ -1,0 +1,14 @@
+.venv/
+**/__pycache__/
+tests/
+data/raw/
+data/processed/
+data/benchmarks/
+data/customer_queries.sqlite3
+artifacts/figures/
+reports/
+experiments/
+app/customer_streamlit.py
+app/admin_app.py
+requirements-project.txt
+bank_customer_service_intent_classification_dataset.csv

@@ -1,0 +1,18 @@
+{
+  "champion": {
+    "model": "LinearSVC",
+    "features": "hybrid"
+  },
+  "reject_threshold": 0.6,
+  "similarity_threshold": 0.411,
+  "validation_macro_f1": 0.9728,
+  "test": {
+    "accuracy": 0.967,
+    "macro_f1": 0.9575,
+    "weighted_f1": 0.9667,
+    "macro_precision": 0.9741,
+    "macro_recall": 0.9436,
+    "weighted_precision": 0.9677,
+    "weighted_recall": 0.967
+  }
+}

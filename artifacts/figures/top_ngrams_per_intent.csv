@@ -1,0 +1,241 @@
+intent,type,ngram,count
+balance_inquiry,unigram,savings,198
+balance_inquiry,unigram,balance,140
+balance_inquiry,unigram,account,117
+balance_inquiry,unigram,total,25
+balance_inquiry,unigram,tell,22
+balance_inquiry,unigram,need,21
+balance_inquiry,unigram,current,18
+balance_inquiry,unigram,got,16
+balance_inquiry,unigram,right,15
+balance_inquiry,unigram,checking,14
+balance_inquiry,unigram,funds,14
+balance_inquiry,unigram,check,13
+balance_inquiry,unigram,know,13
+balance_inquiry,unigram,kindly,12
+balance_inquiry,unigram,dollar,11
+balance_inquiry,bigram,savings account,65
+balance_inquiry,bigram,savings balance,50
+balance_inquiry,bigram,balance savings,28
+balance_inquiry,bigram,account balance,26
+balance_inquiry,bigram,account total,8
+balance_inquiry,bigram,balance immediately,7
+balance_inquiry,bigram,savings total,7
+balance_inquiry,bigram,tell balance,7
+balance_inquiry,bigram,update savings,7
+balance_inquiry,bigram,current savings,6
+balance_inquiry,bigram,funds savings,6
+balance_inquiry,bigram,tell savings,6
+balance_inquiry,bigram,balance thanks,5
+balance_inquiry,bigram,balance check,4
+balance_inquiry,bigram,balance right,4
+card_issue,unigram,card,288
+card_issue,unigram,atm,77
+card_issue,unigram,help,69
+card_issue,unigram,urgent,64
+card_issue,unigram,debit,63
+card_issue,unigram,bank,57
+card_issue,unigram,credit,49
+card_issue,unigram,um,44
+card_issue,unigram,hey,39
+card_issue,unigram,assist,32
+card_issue,unigram,hi,32
+card_issue,unigram,hello,31
+card_issue,unigram,chip,27
+card_issue,unigram,keeps,27
+card_issue,unigram,machine,27
+card_issue,bigram,debit card,63
+card_issue,bigram,bank card,57
+card_issue,bigram,credit card,49
+card_issue,bigram,atm card,41
+card_issue,bigram,card stopped,26
+card_issue,bigram,card got,18
+card_issue,bigram,need replacement,18
+card_issue,bigram,stopped working,16
+card_issue,bigram,accepted online,9
+card_issue,bigram,account fine,9
+card_issue,bigram,atm machine,9
+card_issue,bigram,atm says,9
+card_issue,bigram,bent machine,9
+card_issue,bigram,broken need,9
+card_issue,bigram,card accepted,9
+credit_card_application,unigram,card,280
+credit_card_application,unigram,credit,268
+credit_card_application,unigram,application,178
+credit_card_application,unigram,apply,66
+credit_card_application,unigram,process,36
+credit_card_application,unigram,yo,36
+credit_card_application,unigram,hey,29
+credit_card_application,unigram,need,24
+credit_card_application,unigram,information,23
+credit_card_application,unigram,steps,21
+credit_card_application,unigram,want,18
+credit_card_application,unigram,help,17
+credit_card_application,unigram,start,16
+credit_card_application,unigram,ma,14
+credit_card_application,unigram,advise,13
+credit_card_application,bigram,credit card,264
+credit_card_application,bigram,card application,148
+credit_card_application,bigram,apply credit,33
+credit_card_application,bigram,application process,17
+credit_card_application,bigram,card apply,14
+credit_card_application,bigram,ma credit,11
+credit_card_application,bigram,applying credit,10
+credit_card_application,bigram,information credit,9
+credit_card_application,bigram,start credit,8
+credit_card_application,bigram,let know,7
+credit_card_application,bigram,want apply,7
+credit_card_application,bigram,new credit,6
+credit_card_application,bigram,application credit,5
+credit_card_application,bigram,application form,5
+credit_card_application,bigram,complete credit,5
+forgot_pin,unigram,pin,269
+forgot_pin,unigram,card,174
+forgot_pin,unigram,atm,78
+forgot_pin,unigram,help,78
+forgot_pin,unigram,urgent,51
+forgot_pin,unigram,number,50
+forgot_pin,unigram,debit,48
+forgot_pin,unigram,assist,38
+forgot_pin,unigram,fix,38
+forgot_pin,unigram,um,38
+forgot_pin,unigram,hello,37
+forgot_pin,unigram,need,36
+forgot_pin,unigram,wrong,36
+forgot_pin,unigram,credit,35
+forgot_pin,unigram,reset,35
+forgot_pin,bigram,card pin,138
+forgot_pin,bigram,atm pin,78
+forgot_pin,bigram,debit card,48
+forgot_pin,bigram,pin number,41
+forgot_pin,bigram,credit card,35
+forgot_pin,bigram,pin got,17
+forgot_pin,bigram,pin blocked,15
+forgot_pin,bigram,pin card,14
+forgot_pin,bigram,pin fix,14
+forgot_pin,bigram,number card,13
+forgot_pin,bigram,pin assist,13
+forgot_pin,bigram,pin urgent,11
+forgot_pin,bigram,forgot atm,10
+forgot_pin,bigram,pin help,10
+forgot_pin,bigram,attempts exceeded,9
+fraud_report,unigram,dollar,215
+fraud_report,unigram,check,148
+fraud_report,unigram,fraud,136
+fraud_report,unigram,account,104
+fraud_report,unigram,card,104
+fraud_report,unigram,did,103
+fraud_report,unigram,atm,91
+fraud_report,unigram,got,83
+fraud_report,unigram,scam,78
+fraud_report,unigram,charges,67
+fraud_report,unigram,help,67
+fraud_report,unigram,charge,56
+fraud_report,unigram,fix,56
+fraud_report,unigram,money,55
+fraud_report,unigram,checks,54
+fraud_report,bigram,dollar dollar,66
+fraud_report,bigram,did make,13
+fraud_report,bigram,dollar 500,13
+fraud_report,bigram,fraud alert,12
+fraud_report,bigram,fraud charges,12
+fraud_report,bigram,dollar 200,11
+fraud_report,bigram,check account,10
+fraud_report,bigram,did approve,9
+fraud_report,bigram,did buy,9
+fraud_report,bigram,did write,9
+fraud_report,bigram,got scammed,9
+fraud_report,bigram,dollar 00,8
+fraud_report,bigram,block card,7
+fraud_report,bigram,did authorize,7
+fraud_report,bigram,dollar 600,7
+loan_inquiry,unigram,loan,1201
+loan_inquiry,unigram,application,442
+loan_inquiry,unigram,apply,158
+loan_inquiry,unigram,loans,121
+loan_inquiry,unigram,process,92
+loan_inquiry,unigram,status,91
+loan_inquiry,unigram,know,77
+loan_inquiry,unigram,da,73
+loan_inquiry,unigram,hey,62
+loan_inquiry,unigram,update,60
+loan_inquiry,unigram,like,57
+loan_inquiry,unigram,credit,56
+loan_inquiry,unigram,provide,56
+loan_inquiry,unigram,financing,55
+loan_inquiry,unigram,qualify,55
+loan_inquiry,bigram,loan application,390
+loan_inquiry,bigram,apply loan,55
+loan_inquiry,bigram,status loan,46
+loan_inquiry,bigram,let know,40
+loan_inquiry,bigram,application process,37
+loan_inquiry,bigram,da loan,32
+loan_inquiry,bigram,update loan,26
+loan_inquiry,bigram,loan apply,24
+loan_inquiry,bigram,loan options,23
+loan_inquiry,bigram,ma loan,23
+loan_inquiry,bigram,application status,20
+loan_inquiry,bigram,loan products,20
+loan_inquiry,bigram,know loan,19
+loan_inquiry,bigram,like know,19
+loan_inquiry,bigram,applying loan,17
+password_reset,unigram,password,250
+password_reset,unigram,reset,202
+password_reset,unigram,need,44
+password_reset,unigram,account,31
+password_reset,unigram,link,29
+password_reset,unigram,login,26
+password_reset,unigram,help,24
+password_reset,unigram,send,23
+password_reset,unigram,new,20
+password_reset,unigram,forgot,19
+password_reset,unigram,kindly,16
+password_reset,unigram,email,15
+password_reset,unigram,assist,13
+password_reset,unigram,change,13
+password_reset,unigram,locked,13
+password_reset,bigram,password reset,65
+password_reset,bigram,reset password,64
+password_reset,bigram,reset link,16
+password_reset,bigram,new password,15
+password_reset,bigram,need reset,14
+password_reset,bigram,banking password,10
+password_reset,bigram,forgot password,10
+password_reset,bigram,login password,10
+password_reset,bigram,change password,9
+password_reset,bigram,online banking,7
+password_reset,bigram,send reset,7
+password_reset,bigram,account locked,6
+password_reset,bigram,need new,6
+password_reset,bigram,need password,6
+password_reset,bigram,reset email,6
+transaction_query,unigram,transaction,442
+transaction_query,unigram,did,248
+transaction_query,unigram,payment,245
+transaction_query,unigram,time,135
+transaction_query,unigram,recent,110
+transaction_query,unigram,latest,100
+transaction_query,unigram,date,88
+transaction_query,unigram,purchase,75
+transaction_query,unigram,charge,74
+transaction_query,unigram,spend,65
+transaction_query,unigram,yo,61
+transaction_query,unigram,dollar,60
+transaction_query,unigram,tell,52
+transaction_query,unigram,got,44
+transaction_query,unigram,previous,41
+transaction_query,bigram,did transaction,73
+transaction_query,bigram,recent transaction,51
+transaction_query,bigram,time date,51
+transaction_query,bigram,date time,33
+transaction_query,bigram,dollar dollar,33
+transaction_query,bigram,latest transaction,29
+transaction_query,bigram,previous transaction,28
+transaction_query,bigram,transaction completed,28
+transaction_query,bigram,yo did,24
+transaction_query,bigram,did payment,22
+transaction_query,bigram,time transaction,22
+transaction_query,bigram,date transaction,21
+transaction_query,bigram,recent payment,21
+transaction_query,bigram,did recent,19
+transaction_query,bigram,did previous,18
