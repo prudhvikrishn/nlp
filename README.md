@@ -194,10 +194,9 @@ Out-of-scope detection remains a separate limitation. In the generalization expe
 Activate the project environment in PowerShell:
 
 ```powershell
-cd F:\nlp_project
+cd file path 
 .\.venv\Scripts\Activate.ps1
 ```
-
 Install declared dependencies if needed:
 
 ```powershell
