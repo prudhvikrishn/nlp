@@ -235,25 +235,7 @@ streamlit run app\admin_app.py --server.address 127.0.0.1 --server.port 8502
 
 Open `http://localhost:8502` to view submitted customer names, original queries, predicted categories, and confidence. Both pages bind to loopback on this computer.
 
-### Vercel deployment
 
-The Vercel entrypoint is `app/app.py`, which exports a Flask WSGI application. `requirements.txt` contains its small pinned runtime dependency set; use `requirements-project.txt` for the complete NLP research and local Streamlit environment. Configure the Vercel project root as the repository root, then add these environment variables for Preview and Production:
-
-- `DATABASE_URL` or `POSTGRES_URL`: a PostgreSQL connection string from a persistent provider such as Neon. The app also recognizes `POSTGRES_URL_UNPOOLED` and `POSTGRES_URL_NON_POOLING`.
-- `ADMIN_PASSWORD`: a strong, unique admin password.
-- `SECRET_KEY`: a long random secret used to sign secure sessions.
-
-The repository includes `vercel.json` and `.vercelignore`; keep the Vercel project root at the repository root. The deployed Python version is 3.13, matching the model build environment. Deploy through the connected Git repository or Vercel CLI. The customer page is `/`; the password-protected admin login is `/admin/login`. The Vercel app refuses to fall back to SQLite if no supported PostgreSQL URL is configured. Do not submit real banking credentials, PINs, one-time codes, or full account/card numbers. The separate local Streamlit demo remains available with the commands above.
-
-The full pipeline can be run with:
-
-```powershell
-python -m src.pipeline
-```
-
-The full pipeline writes model and evaluation artifacts under `artifacts/` and can replace the canonical model artifact. Preserve a copy before running it if the verified model must remain fixed. It rebuilds processed splits only when `data/processed/train.csv` is absent.
-
-The test suite passed all 13 tests after the Vercel Flask entrypoint and PostgreSQL storage support were added (2026-10-02).
 
 ## 12. Experiments, Reports, and Promotion
 
