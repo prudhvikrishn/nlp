@@ -82,6 +82,8 @@
       <div class="status review">This wording is unusual or uncertain for our system, so a support specialist will review your query personally.</div>
     {% elif result.recorded %}
       <div class="status ok">Your query has been sent to our {{ result.display }} team.</div>
+    {% elif result.recorded is none %}
+      <div class="status ok">Your query belongs with our {{ result.display }} team.</div>
     {% else %}
       <div class="status review">We classified your query, but couldn't save it right now. Please try again shortly or contact the branch.</div>
     {% endif %}

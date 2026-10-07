@@ -5,7 +5,9 @@
     <div><h1>Customer query inbox</h1><p class="muted">Customer names, original queries, and predicted intent categories.</p></div>
     <form method="post" action="{{ url_for('admin_logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">Sign out</button></form>
   </div>
-  {% if storage_error %}
+  {% if storage_disabled %}
+    <div class="notice">Saving customer queries is turned off because no database is configured. Set <code>DATABASE_URL</code> to a PostgreSQL database in Vercel to collect queries here.</div>
+  {% elif storage_error %}
     <div class="notice error">The submission database is not available. Check the PostgreSQL URL setting and database connectivity.</div>
   {% elif not records %}
     <div class="notice">No customer queries have been submitted yet.</div>

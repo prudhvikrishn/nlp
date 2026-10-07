@@ -32,6 +32,17 @@ class TestCustomerApp(unittest.TestCase):
         self.assertEqual(r.status_code, 400)
         self.assertIn(b"check my balance", r.data)
 
+    def test_no_database_on_vercel_still_classifies(self):
+        os.environ["VERCEL"] = "1"
+        try:
+            r = self.client.post("/submit", data={"customer_name": "Asha", "query": "what is my savings balance"})
+        finally:
+            del os.environ["VERCEL"]
+        html = r.get_data(as_text=True)
+        self.assertEqual(r.status_code, 200)
+        self.assertIn("Balance Inquiry", html)
+        self.assertNotIn("couldn&#39;t save", html)
+
 
 if __name__ == "__main__":
     unittest.main()
