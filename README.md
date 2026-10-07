@@ -49,7 +49,7 @@ The project aims to recognize banking intents across varied customer wording. Th
 | Evaluation | `src/evaluation.py`, called by `src/pipeline.py` | Metrics, per-class reports, confusion matrix, error analysis, and calibration figures under `artifacts/figures/` |
 | Prediction and confidence handling | `src/predictor.py` | Loads the canonical artifact and returns an intent, confidence, review flag, and analysis |
 | Command-line application | `predict.py` | Single-query prediction |
-| Customer web application | `app/app.py` | Flask WSGI app for Vercel; BSD Bank customer form, intent prediction, confidence, and result |
+| Customer web application | `app/app.py` | Flask WSGI app for Vercel; BSD Bank customer form that shows the submitted query back with its predicted category, confidence, closest alternative intents, suggested next step, and the action, topic, entities, and key words picked out by NLP analysis |
 | Local Streamlit customer demo | `app/customer_streamlit.py` | Local customer form and intent prediction |
 | Admin application | `app/admin_app.py` | Local Streamlit query inbox; the Vercel Flask app serves a password-protected `/admin` inbox |
 | Submission storage | `app/submissions.py` | PostgreSQL via `DATABASE_URL` on Vercel; local SQLite at `data/customer_queries.sqlite3` otherwise |
@@ -249,6 +249,29 @@ streamlit run app\admin_app.py --server.address 127.0.0.1 --server.port 8502
 Open `http://localhost:8502` to view submitted customer names, original queries, predicted categories, and confidence. Both pages bind to loopback on this computer.
 
 
+
+### Run the Flask app locally
+
+```bash
+python app/app.py            # http://127.0.0.1:8501 ; stores submissions in local SQLite
+```
+
+### Deploy to Vercel
+
+The Flask app in `app/app.py` is a supported Vercel entrypoint, so no build settings are needed.
+
+1. Push the repository to GitHub and import it in Vercel (**Add New → Project**). Keep the defaults; Vercel detects Flask and installs `requirements.txt`.
+2. In **Settings → Environment Variables**, set:
+   - `SECRET_KEY`: a long random string. Sessions and CSRF tokens depend on it.
+   - `DATABASE_URL`: a PostgreSQL connection string, for example from Vercel's Neon integration under **Storage**. Without it, queries are still classified and shown to the customer, but they are not saved and the admin inbox is empty.
+   - `ADMIN_PASSWORD`: the password for `/admin`.
+3. Deploy. `/health` returns `{"status": "ok"}` once the function is running.
+
+What makes the deployment work:
+
+- `requirements.txt` holds only inference dependencies (about 370 MB installed, under Vercel's 500 MB limit for Python functions). spaCy is left out to stay within that limit, so the NLP features fall back to NLTK; see Section 6 for the measured effect.
+- `nltk_data/` bundles the NLTK resources inference needs (WordNet, stopwords, the English POS tagger, and the English Punkt tokenizer). Vercel's file system is read-only, so these cannot be downloaded at runtime.
+- `vercel.json` excludes training data, reports, experiments, figures, and the full Word2Vec models from the function bundle, and allows up to 60 seconds for a cold start that loads the model.
 
 ## 12. Experiments, Reports, and Promotion
 

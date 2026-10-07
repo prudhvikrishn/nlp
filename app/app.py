@@ -21,6 +21,7 @@ if str(APP_DIR) not in sys.path:
 
 from submissions import get_submissions, initialize_store, save_submission
 from src.predictor import IntentPredictor
+from src.utils import INTENT_DISPLAY, RECOMMENDED_ACTIONS
 
 app = Flask(__name__, template_folder=str(APP_DIR / "templates"))
 app.config.update(
@@ -43,38 +44,87 @@ def get_predictor() -> IntentPredictor:
     return _predictor
 
 
+EXAMPLE_QUERIES = [
+    "I forgot the PIN for my debit card.",
+    "There is a charge on my card I don't recognize.",
+    "What is the balance in my savings account?",
+    "How do I apply for a home loan?",
+]
+
+
+def _render_home(result=None, form=None, status=200):
+    return render_template("customer.html", result=result, form=form or {},
+                           examples=EXAMPLE_QUERIES), status
+
+
+_LIGHT_VERBS = {"is", "are", "was", "were", "be", "am", "'s", "do", "does", "did", "have", "has", "had"}
+
+
+def _customer_result(query: str, prediction: dict) -> dict:
+    """Shape a prediction for the customer page: the query itself, the category,
+    the closest alternatives, and what the NLP analysis picked out of the text."""
+    ranked = sorted(prediction["probabilities"].items(), key=lambda kv: kv[1], reverse=True)
+    analysis = prediction.get("analysis") or {}
+    entities, seen = [], set()
+    for ent in analysis.get("entities", []):
+        key = (ent["text"].lower(), ent["label"])
+        if key not in seen:
+            seen.add(key); entities.append(ent)
+    action = analysis.get("action")
+    if action and action.removeprefix("not ") in _LIGHT_VERBS:   # "There is a charge" -> no useful action
+        action = None
+    confidence = prediction["confidence"]
+    return {
+        "query": query,
+        "intent": prediction["intent"],
+        "display": prediction["display"],
+        "confidence": confidence,
+        "confidence_level": "High" if confidence >= 0.85 else "Medium" if confidence >= 0.6 else "Low",
+        "needs_review": prediction["needs_review"],
+        "next_step": RECOMMENDED_ACTIONS.get(prediction["intent"], ""),
+        "alternatives": [{"display": INTENT_DISPLAY.get(k, k), "probability": p} for k, p in ranked[:3]],
+        "action": action,
+        "target": analysis.get("target"),
+        "entities": entities[:6],
+        "keywords": prediction.get("preprocessing", {}).get("lemmas", [])[:10],
+    }
+
+
 @app.get("/")
 def customer_home():
-    result = session.pop("last_result", None)
-    return render_template("customer.html", result=result)
+    return _render_home()
 
 
 @app.post("/submit")
 def submit_query():
     customer_name = request.form.get("customer_name", "").strip()
     query = request.form.get("query", "").strip()
+    form = {"customer_name": customer_name, "query": query}
     if not customer_name or not query:
         flash("Please enter your name and describe your query.", "error")
-        return redirect(url_for("customer_home"))
+        return _render_home(form=form, status=400)
     if len(customer_name) > 100 or len(query) > 2000:
         flash("Name or query is longer than the allowed limit.", "error")
-        return redirect(url_for("customer_home"))
+        return _render_home(form=form, status=400)
 
     try:
-        prediction = get_predictor().predict(query, with_analysis=False)
+        prediction = get_predictor().predict(query, with_analysis=True)
+    except Exception:
+        app.logger.exception("Customer query could not be classified")
+        flash("We could not process your query right now. Please try again later.", "error")
+        return _render_home(form=form, status=503)
+    try:
         initialize_store()
         save_submission(customer_name, query, prediction["intent"], prediction["confidence"])
+        recorded = True
     except Exception:
-        app.logger.exception("Customer query could not be classified and recorded")
-        flash("We could not process your query right now. Please try again later.", "error")
-        return redirect(url_for("customer_home"))
+        app.logger.exception("Customer query could not be recorded")
+        recorded = False
 
-    session["last_result"] = {
-        "display": prediction["display"],
-        "confidence": prediction["confidence"],
-        "needs_review": prediction["needs_review"],
-    }
-    return redirect(url_for("customer_home"))
+    result = _customer_result(query, prediction)
+    result["customer_name"] = customer_name
+    result["recorded"] = recorded
+    return _render_home(result=result)
 
 
 @app.route("/admin/login", methods=["GET", "POST"])
