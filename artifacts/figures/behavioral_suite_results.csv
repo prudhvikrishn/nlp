@@ -1,30 +1,30 @@
 query,expected,predicted,confidence,margin,similarity,flagged_for_review,pass
-My debit card is not working.,card_issue,card_issue,0.997,0.996,0.679,False,True
-My credit card stopped working this morning.,card_issue,card_issue,0.913,0.828,0.806,False,True
-The magnetic strip on my card is damaged.,card_issue,card_issue,0.949,0.926,0.67,False,True
-my atm card got stuck in the machine,card_issue,card_issue,0.912,0.831,0.71,False,True
-I forgot my ATM PIN.,forgot_pin,forgot_pin,0.994,0.99,0.797,False,True
-cant remember my debit card pin,forgot_pin,forgot_pin,0.981,0.971,0.862,False,True
-My PIN is blocked after three wrong attempts,forgot_pin,forgot_pin,0.763,0.531,0.349,True,True
-how do i reset my atm pin,forgot_pin,forgot_pin,0.951,0.902,0.48,False,True
-Someone charged $450 in Paris on my visa card!,fraud_report,fraud_report,0.99,0.984,0.475,False,True
-"I did not make this transaction, please block my account",fraud_report,fraud_report,0.982,0.974,0.52,False,True
-"my account was hacked, help!!",fraud_report,fraud_report,0.963,0.937,0.912,False,True
-What are the interest rates for a personal loan?,loan_inquiry,loan_inquiry,0.996,0.994,0.626,False,True
-how long does home loan approval take,loan_inquiry,loan_inquiry,0.985,0.976,0.509,False,True
-can i get a loan to buy a car,loan_inquiry,loan_inquiry,0.94,0.89,0.591,False,True
-Show me my last five transactions,transaction_query,transaction_query,0.999,0.998,0.531,False,True
-what is this 250 dollar charge from amazon on my statement,transaction_query,fraud_report,0.927,0.861,0.467,False,False
+My debit card is not working.,card_issue,card_issue,0.997,0.995,0.679,False,True
+My credit card stopped working this morning.,card_issue,card_issue,0.935,0.872,0.806,False,True
+The magnetic strip on my card is damaged.,card_issue,card_issue,0.943,0.907,0.67,False,True
+my atm card got stuck in the machine,card_issue,card_issue,0.922,0.849,0.71,False,True
+I forgot my ATM PIN.,forgot_pin,forgot_pin,0.992,0.986,0.797,False,True
+cant remember my debit card pin,forgot_pin,forgot_pin,0.981,0.97,0.862,False,True
+My PIN is blocked after three wrong attempts,forgot_pin,forgot_pin,0.803,0.611,0.349,True,True
+how do i reset my atm pin,forgot_pin,forgot_pin,0.959,0.918,0.48,False,True
+Someone charged $450 in Paris on my visa card!,fraud_report,fraud_report,0.985,0.974,0.475,False,True
+"I did not make this transaction, please block my account",fraud_report,fraud_report,0.979,0.971,0.52,False,True
+"my account was hacked, help!!",fraud_report,fraud_report,0.968,0.944,0.912,False,True
+What are the interest rates for a personal loan?,loan_inquiry,loan_inquiry,0.996,0.995,0.626,False,True
+how long does home loan approval take,loan_inquiry,loan_inquiry,0.981,0.971,0.509,False,True
+can i get a loan to buy a car,loan_inquiry,loan_inquiry,0.964,0.942,0.591,False,True
+Show me my last five transactions,transaction_query,transaction_query,0.998,0.998,0.531,False,True
+what is this 250 dollar charge from amazon on my statement,transaction_query,fraud_report,0.961,0.931,0.467,False,False
 How much money is left in my savings account?,balance_inquiry,balance_inquiry,0.998,0.997,0.672,False,True
-what's my current balance,balance_inquiry,balance_inquiry,0.997,0.995,0.522,False,True
-check my checking account balance pls,balance_inquiry,balance_inquiry,0.702,0.405,0.617,False,True
-How do I apply for a credit card?,credit_card_application,credit_card_application,0.947,0.918,0.856,False,True
-"i want a new credit card, what documents do i need",credit_card_application,credit_card_application,0.878,0.807,0.597,False,True
-status of my credit card application,credit_card_application,credit_card_application,0.995,0.991,0.811,False,True
-I forgot my online banking password.,password_reset,password_reset,0.987,0.981,0.751,False,True
+what's my current balance,balance_inquiry,balance_inquiry,0.998,0.997,0.522,False,True
+check my checking account balance pls,balance_inquiry,balance_inquiry,0.789,0.581,0.617,False,True
+How do I apply for a credit card?,credit_card_application,credit_card_application,0.937,0.896,0.856,False,True
+"i want a new credit card, what documents do i need",credit_card_application,credit_card_application,0.896,0.84,0.597,False,True
+status of my credit card application,credit_card_application,credit_card_application,0.997,0.995,0.811,False,True
+I forgot my online banking password.,password_reset,password_reset,0.989,0.986,0.751,False,True
 reset my netbanking password,password_reset,password_reset,0.999,0.998,0.63,False,True
-pls send me a new password link,password_reset,password_reset,0.986,0.98,0.787,False,True
-what's the weather like today,out_of_scope,transaction_query,0.472,0.19,0.373,True,True
-who won the cricket match yesterday,out_of_scope,fraud_report,0.967,0.953,0.391,True,True
-tell me a joke,out_of_scope,balance_inquiry,0.691,0.553,0.461,False,False
-recommend a good pizza place nearby,out_of_scope,transaction_query,0.663,0.333,0.376,True,True
+pls send me a new password link,password_reset,password_reset,0.987,0.982,0.787,False,True
+what's the weather like today,out_of_scope,fraud_report,0.544,0.316,0.373,True,True
+who won the cricket match yesterday,out_of_scope,fraud_report,0.982,0.975,0.391,True,True
+tell me a joke,out_of_scope,balance_inquiry,0.692,0.504,0.461,False,False
+recommend a good pizza place nearby,out_of_scope,fraud_report,0.507,0.018,0.376,True,True

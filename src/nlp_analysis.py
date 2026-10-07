@@ -98,7 +98,7 @@ class BankingNLPAnalyzer:
                 "action": action, "target": target}
 
     def _fallback(self, text):
-        toks = nltk.word_tokenize(text)
+        toks = nltk.word_tokenize(text.replace("\u2019", "'"))   # "didn’t" -> did + n't, so negation is seen
         tagged = nltk.pos_tag(toks)
         umap = lambda t: "VERB" if t.startswith("VB") else "NOUN" if t.startswith("NN") else "ADJ" if t.startswith("JJ") \
             else "ADV" if t.startswith("RB") else "PRON" if t.startswith("PRP") else "OTHER"

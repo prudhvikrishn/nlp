@@ -1,12 +1,12 @@
 ,precision,recall,f1-score,support
 balance_inquiry,0.9565,0.898,0.9263,49.0
-card_issue,1.0,0.8333,0.9091,36.0
+card_issue,1.0,0.8889,0.9412,36.0
 credit_card_application,0.9773,0.9149,0.9451,47.0
-forgot_pin,0.973,1.0,0.9863,36.0
-fraud_report,0.9235,0.9628,0.9427,188.0
+forgot_pin,1.0,1.0,1.0,36.0
+fraud_report,0.933,0.9628,0.9476,188.0
 loan_inquiry,0.9795,0.9958,0.9876,240.0
 password_reset,1.0,0.9556,0.9773,45.0
-transaction_query,0.9831,0.9887,0.9859,177.0
-accuracy,0.967,0.967,0.967,0.967
-macro avg,0.9741,0.9436,0.9575,818.0
-weighted avg,0.9677,0.967,0.9667,818.0
+transaction_query,0.9832,0.9944,0.9888,177.0
+accuracy,0.9707,0.9707,0.9707,0.9707
+macro avg,0.9787,0.9513,0.9642,818.0
+weighted avg,0.9711,0.9707,0.9705,818.0
