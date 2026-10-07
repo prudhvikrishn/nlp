@@ -117,7 +117,7 @@ The processed validation file is named `val.csv` in the current repository.
 
 ### Data
 
-The raw dataset is kept under `data/raw/`. The data loader creates the enriched dataset and split CSVs under `data/processed/`. The loader adds synthetic examples for `card_issue` and `forgot_pin`; those examples are marked with their source in the enriched data. Do not edit the original raw data or frozen evaluation sets.
+The raw dataset is `data/raw/bank_customer_service_intent_classification_dataset.csv` (5,000 queries, 6 intents, columns `query` and `intent`; the `credi_card_application` label typo is corrected by the loader). Running `python -c "from src.data_loader import build_datasets; build_datasets()"` regenerates the processed splits from it: every row lands in the same split as the committed files. The only difference is that the current loader strips trailing whitespace from 7 queries, which the committed splits keep. The data loader creates the enriched dataset and split CSVs under `data/processed/`. The loader adds synthetic examples for `card_issue` and `forgot_pin`; those examples are marked with their source in the enriched data. Do not edit the original raw data or frozen evaluation sets.
 
 ### Preprocessing and Features
 

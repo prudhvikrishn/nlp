@@ -4,4 +4,3 @@ __pycache__/
 nltk_data/
 Microsoft.Services.Store.winmd
 powershell.cmd
-bank_customer_service_intent_classification_dataset.csv
