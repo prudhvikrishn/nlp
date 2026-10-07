@@ -1,39 +1,26 @@
-"""BSD Bank web application entrypoint for Vercel's Python WSGI runtime."""
+"""BSD Bank customer support web app: classifies a banking query and explains the result.
+
+Entry point for Vercel's Python runtime (`app` is the WSGI application). The app is stateless:
+queries are classified and shown back to the customer, and nothing is stored.
+"""
 from __future__ import annotations
 
-import hmac
 import os
-import secrets
 import sys
-from datetime import timedelta
 from pathlib import Path
 
-from flask import Flask, flash, redirect, render_template, request, session, url_for
-from flask_wtf.csrf import CSRFError, CSRFProtect
+from flask import Flask, render_template, request
 
 ROOT = Path(__file__).resolve().parent.parent
 APP_DIR = Path(__file__).resolve().parent
-CONFIGURED_SECRET_KEY = os.environ.get("SECRET_KEY", "")
-MIN_SECRET_KEY_LENGTH = 32
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-if str(APP_DIR) not in sys.path:
-    sys.path.insert(0, str(APP_DIR))
 
-from submissions import get_submissions, initialize_store, save_submission, storage_enabled
 from src.predictor import IntentPredictor
 from src.utils import INTENT_DISPLAY, RECOMMENDED_ACTIONS
 
 app = Flask(__name__, template_folder=str(APP_DIR / "templates"))
-app.config.update(
-    SECRET_KEY=CONFIGURED_SECRET_KEY or secrets.token_urlsafe(48),
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE="Lax",
-    SESSION_COOKIE_SECURE=bool(os.environ.get("VERCEL")),
-    PERMANENT_SESSION_LIFETIME=timedelta(hours=8),
-    MAX_CONTENT_LENGTH=8 * 1024,
-)
-CSRFProtect(app)
+app.config.update(MAX_CONTENT_LENGTH=8 * 1024)
 
 _predictor: IntentPredictor | None = None
 
@@ -53,8 +40,8 @@ EXAMPLE_QUERIES = [
 ]
 
 
-def _render_home(result=None, form=None, status=200):
-    return render_template("customer.html", result=result, form=form or {},
+def _render_home(result=None, form=None, error=None, status=200):
+    return render_template("customer.html", result=result, form=form or {}, error=error,
                            examples=EXAMPLE_QUERIES), status
 
 
@@ -67,10 +54,14 @@ def _customer_result(query: str, prediction: dict) -> dict:
     ranked = sorted(prediction["probabilities"].items(), key=lambda kv: kv[1], reverse=True)
     analysis = prediction.get("analysis") or {}
     entities, seen = [], set()
-    for ent in analysis.get("entities", []):
-        key = (ent["text"].lower(), ent["label"])
-        if key not in seen:
-            seen.add(key); entities.append(ent)
+    raw = analysis.get("entities", [])
+    texts = [e["text"].lower() for e in raw]
+    for ent in raw:
+        text = ent["text"].lower()
+        # skip duplicates and fragments of a longer detection ("450" and "$" inside "$450")
+        if text in seen or any(text != other and text in other for other in texts):
+            continue
+        seen.add(text); entities.append(ent)
     action = analysis.get("action")
     if action and action.removeprefix("not ") in _LIGHT_VERBS:   # "There is a charge" -> no useful action
         action = None
@@ -102,81 +93,25 @@ def submit_query():
     query = request.form.get("query", "").strip()
     form = {"customer_name": customer_name, "query": query}
     if not customer_name or not query:
-        flash("Please enter your name and describe your query.", "error")
-        return _render_home(form=form, status=400)
+        return _render_home(form=form, error="Please enter your name and describe your query.", status=400)
     if len(customer_name) > 100 or len(query) > 2000:
-        flash("Name or query is longer than the allowed limit.", "error")
-        return _render_home(form=form, status=400)
+        return _render_home(form=form, error="Name or query is longer than the allowed limit.", status=400)
 
     try:
         prediction = get_predictor().predict(query, with_analysis=True)
     except Exception:
         app.logger.exception("Customer query could not be classified")
-        flash("We could not process your query right now. Please try again later.", "error")
-        return _render_home(form=form, status=503)
-    recorded = None                      # None: saving is switched off (no database configured)
-    if storage_enabled():
-        try:
-            initialize_store()
-            save_submission(customer_name, query, prediction["intent"], prediction["confidence"])
-            recorded = True
-        except Exception:
-            app.logger.exception("Customer query could not be recorded")
-            recorded = False
+        return _render_home(form=form, error="We could not process your query right now. Please try again later.",
+                            status=503)
 
     result = _customer_result(query, prediction)
     result["customer_name"] = customer_name
-    result["recorded"] = recorded
     return _render_home(result=result)
-
-
-@app.route("/admin/login", methods=["GET", "POST"])
-def admin_login():
-    if session.get("admin_authenticated"):
-        return redirect(url_for("admin_inbox"))
-    configured_password = os.environ.get("ADMIN_PASSWORD", "")
-    # The admin flag lives in a cookie signed with SECRET_KEY; a short key could be guessed and the cookie forged.
-    admin_configured = bool(configured_password and len(CONFIGURED_SECRET_KEY) >= MIN_SECRET_KEY_LENGTH)
-    if request.method == "POST":
-        provided = request.form.get("password", "")
-        if admin_configured and hmac.compare_digest(provided, configured_password):
-            session.clear()
-            session["admin_authenticated"] = True
-            session.permanent = True
-            return redirect(url_for("admin_inbox"))
-        flash("Admin access is not configured or the password is incorrect.", "error")
-    return render_template("admin_login.html", admin_configured=admin_configured)
-
-
-@app.get("/admin")
-def admin_inbox():
-    if not session.get("admin_authenticated"):
-        return redirect(url_for("admin_login"))
-    if not storage_enabled():
-        return render_template("admin.html", records=[], storage_error=False, storage_disabled=True)
-    try:
-        initialize_store()
-        records = get_submissions()
-    except Exception:
-        app.logger.exception("Admin inbox could not read the submission store")
-        return render_template("admin.html", records=[], storage_error=True)
-    return render_template("admin.html", records=records, storage_error=False)
-
-
-@app.post("/admin/logout")
-def admin_logout():
-    session.clear()
-    return redirect(url_for("admin_login"))
 
 
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "BSD Bank query classifier"}
-
-
-@app.errorhandler(CSRFError)
-def csrf_error(_error):
-    return "The form expired. Reload the page and try again.", 400
 
 
 if __name__ == "__main__":

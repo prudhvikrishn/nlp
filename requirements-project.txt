@@ -10,6 +10,4 @@ seaborn>=0.13
 joblib>=1.3
 streamlit>=1.35
 Flask>=3.0
-Flask-WTF>=1.2
-psycopg[binary]>=3.2
 # After installing: python -m spacy download en_core_web_sm

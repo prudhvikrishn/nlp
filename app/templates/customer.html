@@ -43,7 +43,6 @@
     <p class="muted">Describe your banking question in your own words. We'll work out what it's about and route it to the right team.</p>
     <div class="notice warning small">For your safety, don't include passwords, PINs, one-time codes, or full account or card numbers.</div>
     <form method="post" action="{{ url_for('submit_query') }}" id="query-form">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       <label for="customer_name">Your name</label>
       <input id="customer_name" name="customer_name" maxlength="100" autocomplete="name" required
              value="{{ (result.customer_name if result else form.customer_name) or '' }}">
@@ -80,12 +79,8 @@
 
     {% if result.needs_review %}
       <div class="status review">This wording is unusual or uncertain for our system, so a support specialist will review your query personally.</div>
-    {% elif result.recorded %}
-      <div class="status ok">Your query has been sent to our {{ result.display }} team.</div>
-    {% elif result.recorded is none %}
-      <div class="status ok">Your query belongs with our {{ result.display }} team.</div>
     {% else %}
-      <div class="status review">We classified your query, but couldn't save it right now. Please try again shortly or contact the branch.</div>
+      <div class="status ok">Your query belongs with our {{ result.display }} team.</div>
     {% endif %}
 
     {% if result.next_step and not result.needs_review %}
