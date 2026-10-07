@@ -1,306 +1,295 @@
-# NLP-Based Banking Customer Query Classification and Intent Analysis System
+# NLP-Based Banking Customer Query Classification and Intent Analysis
 
-## 1. Project Overview
+[![Python](https://img.shields.io/badge/python-3.13-3776AB?logo=python&logoColor=white)](.python-version)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.9-F7931E?logo=scikitlearn&logoColor=white)](requirements.txt)
+[![Flask](https://img.shields.io/badge/Flask-3.1-000000?logo=flask&logoColor=white)](app/app.py)
+[![Deploy on Vercel](https://img.shields.io/badge/deploy-Vercel-000000?logo=vercel&logoColor=white)](#deployment-vercel)
+[![Tests](https://img.shields.io/badge/tests-18%20passing-2ea44f)](tests/)
 
-This project classifies natural-language banking customer queries into supported banking intents. It preprocesses a query, builds lexical and Word2Vec features, predicts an intent, estimates confidence, and provides linguistic analysis and a recommended action.
+An end-to-end NLP system that reads a customer's banking query in plain language, works out what the customer wants, and routes it to the right team. It classifies each query into one of **8 banking intents**, reports a calibrated confidence score, flags unfamiliar wording for human review, and explains its decision by extracting the action, topic, and banking entities from the text.
 
-The current source of truth is:
+**Held-out test results (818 queries): 97.07% accuracy, 96.42% Macro-F1.**
 
-```text
-F:\nlp_project
+![BSD Bank customer page showing a submitted query, its predicted category, confidence, closest matches, and extracted details](docs/images/customer-page.png)
+
+---
+
+## Contents
+
+- [Features](#features)
+- [Supported intents](#supported-intents)
+- [Pipeline](#pipeline)
+- [Results](#results)
+- [Quick start](#quick-start)
+- [Usage](#usage)
+- [Deployment (Vercel)](#deployment-vercel)
+- [Retraining the model](#retraining-the-model)
+- [Project structure](#project-structure)
+- [Evaluation and robustness](#evaluation-and-robustness)
+- [Limitations and roadmap](#limitations-and-roadmap)
+
+---
+
+## Features
+
+- **Intent classification** into 8 banking intents with a calibrated LinearSVC.
+- **Confidence and review flagging**: queries with low confidence, or wording far from anything seen in training, are routed to a human instead of being auto-classified.
+- **Linguistic analysis**: POS tagging, dependency parsing, named-entity recognition (amounts, card types, masked card numbers, account numbers, dates), and action → target extraction (for example *not working → debit card*).
+- **NLP-informed features**: the analysis output feeds the classifier as features, alongside TF-IDF, Word2Vec, and handcrafted linguistic signals.
+- **Systematic model comparison**: 5 classifiers × 6 feature sets, selected on validation data only.
+- **Customer web app** (Flask): shows the submitted query back with its category, confidence, closest alternatives, suggested next step, and the details extracted from the message.
+- **Admin inbox**: a password-protected view of submitted queries and their predictions.
+- **Command-line tool** for single-query prediction.
+- **Serverless deployment** on Vercel, with PostgreSQL for storage.
+
+## Supported intents
+
+| Intent | Example query |
+|---|---|
+| Balance Inquiry | "What is the balance in my savings account?" |
+| Card Issue | "My debit card is not working at the ATM." |
+| Credit Card Application | "How do I apply for a credit card?" |
+| Forgot PIN | "I forgot the PIN for my debit card." |
+| Fraud Report | "Someone charged $450 on my card and it wasn't me." |
+| Loan Inquiry | "What are the interest rates for a personal loan?" |
+| Password Reset | "I'm locked out, please reset my online banking password." |
+| Transaction Query | "When did my last payment go through?" |
+
+## Pipeline
+
+```mermaid
+flowchart TD
+    A[Data collection] --> C[Text preprocessing]
+    B[Data analysis] -.informs.-> C
+    C --> D[Vectorization<br/>BoW + TF-IDF]
+    C --> E[Word embedding<br/>Word2Vec CBOW / Skip-gram]
+    D --> F[NLP analysis]
+    E --> F
+    F --> F1[POS tagging]
+    F --> F2[Dependency parsing]
+    F --> F3[NER / semantic labeling]
+    F1 --> G[Feature engineering]
+    F2 --> G
+    F3 --> G
+    G --> H[ML classification]
+    H --> I[Model comparison]
+    I --> J[Evaluation]
+    J --> K[Final NLP application<br/>web app · CLI · admin inbox]
 ```
 
-The canonical application model is the pipeline champion, a calibrated LinearSVC on `hybrid_nlp` features. The audit and the linguistic-generalization experiment were run against the previous `hybrid` baseline. Experimental models are stored separately and have not been promoted.
-
-## 2. Project Goal
-
-```text
-Customer banking query
-        |
-        v
-Text preprocessing and linguistic analysis
-        |
-        v
-Feature representation
-        |
-        v
-Intent classification
-        |
-        v
-Intent, confidence, NLP analysis, and recommended action
-```
-
-The project aims to recognize banking intents across varied customer wording. The random-split test score is not, by itself, evidence of robust performance on all new wording.
-
-## 3. Pipeline Stages and Actual Implementation
-
-| Stage | Implementation | Outputs or related artifacts |
+| Stage | Module | What it does |
 |---|---|---|
-| Data collection and splitting | `src/data_loader.py` | Reads `data/raw/bank_customer_service_intent_classification_dataset.csv`; writes enriched data and `data/processed/train.csv`, `val.csv`, and `test.csv` |
-| Exploratory data analysis | `src/eda.py` | EDA tables and figures under `artifacts/figures/` |
-| Text preprocessing | `src/preprocessing.py` | Cleaning, contraction and shorthand handling, tokenization, stopword handling, lemmatization, and stemming |
-| Vectorization | `src/feature_engineering.py` and `src/embeddings.py` | Fits and applies BoW and TF-IDF vectorizers on training-fitted vocabulary |
-| Word embedding | `src/embeddings.py`, used by `src/feature_engineering.py` | Trains Word2Vec CBOW and Skip-Gram representations |
-| NLP analysis | `src/nlp_analysis.py` | POS tags, spaCy dependency data when the spaCy model is available, regex banking entities, and action-to-target extraction |
-| Feature engineering | `src/feature_engineering.py` | BoW, TF-IDF, Word2Vec, hybrid, and `hybrid_nlp` (hybrid + Stage 5 NLP-analysis features) representations |
-| ML classification | `src/models.py` | Classifier definitions, compatibility rules, and tuning grids |
-| Model comparison | `src/models.py`, `src/evaluation.py`, orchestrated by `src/pipeline.py` | Scores compatible classifier/feature pairs on validation; table and chart are under `artifacts/figures/` |
-| Pipeline orchestration | `src/pipeline.py` | Fits candidates, selects the champion on validation, evaluates the held-out test set, and writes canonical artifacts |
-| Evaluation | `src/evaluation.py`, called by `src/pipeline.py` | Metrics, per-class reports, confusion matrix, error analysis, and calibration figures under `artifacts/figures/` |
-| Prediction and confidence handling | `src/predictor.py` | Loads the canonical artifact and returns an intent, confidence, review flag, and analysis |
-| Command-line application | `predict.py` | Single-query prediction |
-| Customer web application | `app/app.py` | Flask WSGI app for Vercel; BSD Bank customer form that shows the submitted query back with its predicted category, confidence, closest alternative intents, suggested next step, and the action, topic, entities, and key words picked out by NLP analysis |
-| Local Streamlit customer demo | `app/customer_streamlit.py` | Local customer form and intent prediction |
-| Admin application | `app/admin_app.py` | Local Streamlit query inbox; the Vercel Flask app serves a password-protected `/admin` inbox |
-| Submission storage | `app/submissions.py` | PostgreSQL via `DATABASE_URL` on Vercel; local SQLite at `data/customer_queries.sqlite3` otherwise |
+| 1. Data collection | `src/data_loader.py` | Loads the raw dataset, removes duplicates, fixes a label typo, adds templated examples for two intents missing from the raw data, and makes stratified train/validation/test splits |
+| 2. Data analysis | `src/eda.py` | Class balance, query lengths, vocabulary, top n-grams per intent, Word2Vec projection |
+| 3. Text preprocessing | `src/preprocessing.py` | Normalization, contraction and shorthand expansion, tokenization, intent-aware stopword removal, POS-aware lemmatization, stemming |
+| 4. Vectorization and word embedding | `src/embeddings.py` | Bag-of-Words, TF-IDF, and Word2Vec (CBOW and Skip-gram) trained on the training split only |
+| 5. NLP analysis | `src/nlp_analysis.py` | spaCy POS tags, dependency parse, and named entities, plus regex banking entities and action → target extraction; falls back to NLTK when spaCy is unavailable |
+| 6. Feature engineering | `src/feature_engineering.py` | Six feature sets: `bow`, `tfidf`, `w2v_cbow`, `w2v_skipgram`, `hybrid` (TF-IDF + IDF-weighted Word2Vec + 11 linguistic features), and `hybrid_nlp` (hybrid + Stage 5 indicators) |
+| 7. ML classification | `src/models.py` | Naive Bayes, Logistic Regression, calibrated LinearSVC, Random Forest, Gradient Boosting |
+| 8. Model comparison | `src/pipeline.py` | Trains every compatible classifier/feature pair and selects the champion by validation Macro-F1 |
+| 9. Evaluation | `src/evaluation.py` | Held-out test metrics, per-class report, confusion matrix, calibration, error analysis |
+| 10. Final application | `src/predictor.py`, `app/`, `predict.py` | Inference service, Flask web app, Streamlit demos, CLI |
 
-## 4. Project Structure
+## Results
 
-```text
-F:\nlp_project
-|
-+-- app\
-|   +-- app.py
-|   +-- customer_streamlit.py
-|   +-- admin_app.py
-|   +-- submissions.py
-|   +-- templates\
-|       +-- base.html
-|       +-- customer.html
-|       +-- admin_login.html
-|       +-- admin.html
-+-- artifacts\
-|   +-- figures\
-|   +-- models\
-+-- data\
-|   +-- raw\
-|   +-- processed\
-|       +-- banking_queries_enriched.csv
-|       +-- train.csv
-|       +-- val.csv
-|       +-- test.csv
-|   +-- benchmarks\
-+-- experiments\
-|   +-- linguistic_generalization_2026-10-02\
-+-- reports\
-|   +-- leakage_audit_2026-10-02\
-+-- src\
-|   +-- data_loader.py
-|   +-- eda.py
-|   +-- embeddings.py
-|   +-- evaluation.py
-|   +-- feature_engineering.py
-|   +-- models.py
-|   +-- nlp_analysis.py
-|   +-- pipeline.py
-|   +-- predictor.py
-|   +-- preprocessing.py
-|   +-- utils.py
-+-- tests\
-+-- predict.py
-+-- requirements.txt
-+-- requirements-project.txt
-+-- nltk_data\
-|   +-- corpora\
-|   +-- taggers\
-|   +-- tokenizers\
-+-- .python-version
-+-- .vercelignore
-+-- vercel.json
-+-- README.md
-+-- .venv\
+### Champion model
+
+Calibrated **LinearSVC** (`C=1.0`, balanced class weights, 5-fold sigmoid calibration) on **`hybrid_nlp`** features. The model is selected on validation data, and the test set is scored once after selection.
+
+| Split | Accuracy | Macro-F1 | Weighted-F1 |
+|---|---:|---:|---:|
+| Validation (836) | 98.21% | 97.82% | 98.20% |
+| Test (818, held out) | 97.07% | 96.42% | 97.05% |
+
+### Model comparison (validation Macro-F1)
+
+| Classifier | BoW | TF-IDF | W2V CBOW | W2V Skip-gram | Hybrid | Hybrid + NLP |
+|---|---:|---:|---:|---:|---:|---:|
+| Naive Bayes | 94.28 | 94.02 | — | — | — | — |
+| Logistic Regression | 95.67 | 96.65 | 93.27 | 93.75 | 95.34 | 96.17 |
+| **LinearSVC** | 94.73 | 96.70 | 94.09 | 94.57 | 97.28 | **97.82** |
+| Random Forest | 94.96 | 94.12 | 93.60 | 94.89 | 92.91 | 93.49 |
+| Gradient Boosting | 94.51 | 92.35 | 92.61 | 92.40 | 92.76 | 92.83 |
+
+Naive Bayes needs non-negative features, so it only runs on BoW and TF-IDF. On its own, the NLP-analysis block reaches 79.27% validation Macro-F1, so it carries real signal that complements the lexical features.
+
+### Per-intent test performance
+
+| Intent | Precision | Recall | F1 | Support |
+|---|---:|---:|---:|---:|
+| Balance Inquiry | 95.65% | 89.80% | 92.63% | 49 |
+| Card Issue | 100.00% | 88.89% | 94.12% | 36 |
+| Credit Card Application | 97.73% | 91.49% | 94.51% | 47 |
+| Forgot PIN | 100.00% | 100.00% | 100.00% | 36 |
+| Fraud Report | 93.30% | 96.28% | 94.76% | 188 |
+| Loan Inquiry | 97.95% | 99.58% | 98.76% | 240 |
+| Password Reset | 100.00% | 95.56% | 97.73% | 45 |
+| Transaction Query | 98.32% | 99.44% | 98.88% | 177 |
+
+Figures are in [`artifacts/figures/`](artifacts/figures/): [confusion matrix](artifacts/figures/confusion_matrix.png), [model comparison](artifacts/figures/model_comparison.png), [confidence calibration](artifacts/figures/confidence_calibration.png), [intent distribution](artifacts/figures/intent_distribution.png), and [Word2Vec projection](artifacts/figures/word2vec_pca.png).
+
+## Quick start
+
+Requires Python 3.13, the version used for development and deployment.
+
+```bash
+git clone https://github.com/prudhvikrishn/nlp.git
+cd nlp
+python -m venv .venv
+source .venv/bin/activate              # Windows: .venv\Scripts\activate
+pip install -r requirements-project.txt
+python -m spacy download en_core_web_sm
+python -m unittest discover tests      # 18 tests
 ```
 
-The processed validation file is named `val.csv` in the current repository.
+The trained model ships in `artifacts/models/`, so no training is needed to run the apps. On Windows, `run_demo.bat` does the setup and starts the Streamlit demo in one step.
 
-## 5. Main Components
+## Usage
 
-### Data
+### Command line
 
-The raw dataset is `data/raw/bank_customer_service_intent_classification_dataset.csv` (5,000 queries, 6 intents, columns `query` and `intent`; the `credi_card_application` label typo is corrected by the loader). Running `python -c "from src.data_loader import build_datasets; build_datasets()"` regenerates the processed splits from it: every row lands in the same split as the committed files. The only difference is that the current loader strips trailing whitespace from 7 queries, which the committed splits keep. The data loader creates the enriched dataset and split CSVs under `data/processed/`. The loader adds synthetic examples for `card_issue` and `forgot_pin`; those examples are marked with their source in the enriched data. Do not edit the original raw data or frozen evaluation sets.
-
-### Preprocessing and Features
-
-`src/preprocessing.py` normalizes text, handles contractions and project shorthand, tokenizes, removes stopwords while preserving intent-relevant words, and generates lemmas and stems.
-
-`src/embeddings.py` implements Bag of Words, TF-IDF, and Word2Vec support. `src/feature_engineering.py` fits representations on training data and combines TF-IDF, Word2Vec, and linguistic features for the hybrid representation.
-
-The `hybrid_nlp` representation connects the NLP-analysis stage to feature engineering. For every query, it turns the `BankingNLPAnalyzer` output into sparse indicator features, fitted on training data only and kept when seen at least twice:
-
-- NER: entity labels such as `ent=AMOUNT`, `ent=CARD_TYPE`, `ent=MASKED_CARD`, and spaCy `DATE`/`MONEY`
-- Semantic labeling: `target=debit card`, `action=working`, `action_negated`, and the frame `not working->debit card`
-- Dependency parsing: relation types, the root word, and head-dependent pairs such as `dobj=forgot_pin`
-
-The block is L2-normalized like the TF-IDF block and appended to the hybrid features. Without that normalization, the validation Macro-F1 of LinearSVC on `hybrid_nlp` was 95.88%, below plain hybrid.
-
-### Linguistic Analysis
-
-`src/nlp_analysis.py` uses spaCy when `en_core_web_sm` is available. Its fallback provides NLTK POS tagging and regex-based banking entities; dependency output is unavailable in fallback mode. The analyzer also extracts a banking action and target.
-
-## 6. Current Canonical Model
-
-The current champion is a calibrated LinearSVC using `hybrid_nlp` features (hybrid + NLP-analysis features):
-
-```text
-LinearSVC C=1.0
-class_weight=balanced
-random_state=42
-CalibratedClassifierCV method=sigmoid, cv=5
-```
-
-The pipeline compares compatible feature/classifier pairs by validation Macro-F1 and uses its tie rule to select the champion. The test set is held out from this selection. The canonical artifact is `artifacts/models/best_model.pkl`.
-
-The NLP features are fitted with spaCy `en_core_web_sm`. When spaCy is unavailable, as with the minimal Vercel `requirements.txt`, the analyzer falls back to NLTK, which has no dependency parse, and the feature builder warns about the backend mismatch. Measured on the test set, that fallback scores 96.20% Macro-F1 instead of 96.42%.
-
-## 7. Verified Baseline Performance
-
-Current champion (`hybrid_nlp` + LinearSVC), compared with the previous `hybrid` baseline:
-
-| Evaluation | Previous baseline (`hybrid`) | Current (`hybrid_nlp`) |
-|---|---:|---:|
-| Validation Macro-F1 (used for selection) | 97.28% | 97.82% |
-| Test accuracy (818 queries, held out) | 96.70% | 97.07% |
-| Test Macro-F1 | 95.75% | 96.42% |
-| Test Weighted-F1 | 96.67% | 97.05% |
-| 5-fold CV Macro-F1 on train | 96.58% ± 0.75 | 96.50% ± 0.51 |
-| Frozen paraphrase Macro-F1 (40) | 53.90% | 59.92% |
-| Frozen adversarial Macro-F1 (40) | 72.71% | 70.33% |
-| Expanded external-style Macro-F1 (80) | 50.00% | 51.12% |
-| Behavioral suite in-domain / OOS flagged | 24/25, 3/4 | 24/25, 3/4 |
-
-The validation and test gains are small (about 4–6 queries), and train CV shows no gain. The block normalization was chosen while looking at validation scores. Treat `hybrid_nlp` as a modest, not conclusive, improvement. On its own, the NLP-analysis block reaches 79.27% validation Macro-F1 with Logistic Regression (`artifacts/figures/extra_experiments.csv`), so it carries real intent signal but complements lexical features rather than replacing them.
-
-The high in-sample training score (99.82% Macro-F1 for the previous baseline) alone does not establish overfitting. The main observed limitation is weaker performance on linguistically novel queries.
-
-## 8. Leakage and Generalization Audit
-
-The audit found no exact train/validation/test duplicates and no shared synthetic template families across splits. Removing highly similar test examples barely changed the baseline score. The full findings and limitations are in `reports/leakage_audit_2026-10-02/audit_report.md`.
-
-The prior manually authored paraphrase and adversarial sets showed weaker performance than the random-split test set. Those small sets are diagnostic and should not be treated as population estimates.
-
-## 9. Linguistic Generalization Experiment
-
-The isolated experiment is under:
-
-```text
-experiments\linguistic_generalization_2026-10-02
-```
-
-It was run against the previous `hybrid` baseline. It adds 145 hand-authored training examples and retrains the same champion architecture without changing the original train, validation, test, or existing evaluation files.
-
-| Evaluation | Baseline Macro-F1 | Enriched Macro-F1 |
-|---|---:|---:|
-| Validation | 97.28% | 97.57% |
-| Frozen test | 95.75% | 96.68% |
-| Frozen paraphrase | 53.90% | 92.27% |
-| Frozen adversarial | 72.71% | 80.39% |
-| New external-style set | 50.00% | 81.68% |
-
-These results are exploratory. The additions and new evaluation set were authored in the same task after prior class-level failures and evaluation wording were visible. No existing evaluation rows were copied into training, but semantic influence cannot be ruled out. The new set is small and is not independently sampled. The enriched model has not been promoted to the canonical application artifact. See `experiments/linguistic_generalization_2026-10-02/experiment_report.md` for full metrics and limitations.
-
-## 10. Out-of-Scope Detection
-
-Out-of-scope detection remains a separate limitation. In the generalization experiment, the current confidence-plus-similarity review rule flagged 6 of 10 new OOS queries and incorrectly sent 40 of 80 in-domain queries to review. This does not establish reliable OOS detection. The experiment report contains the full diagnostic.
-
-## 11. Setup and Commands
-
-Activate the project environment in PowerShell:
-
-```powershell
-cd file path 
-.\.venv\Scripts\Activate.ps1
-```
-Install declared dependencies if needed:
-
-```powershell
-python -m pip install -r requirements-project.txt
-```
-
-Run the unit tests:
-
-```powershell
-python -m unittest discover tests
-```
-
-Run a CLI prediction:
-
-```powershell
+```bash
 python predict.py "My debit card is not working."
 ```
 
-Run the BSD Bank customer page in one PowerShell window:
-
-```powershell
-cd F:\nlp_project
-.\.venv\Scripts\Activate.ps1
-streamlit run app\customer_streamlit.py --server.address 127.0.0.1 --server.port 8501
+```text
+Predicted Intent   : Card Issue
+Confidence         : 99.7%
+Top 3              : card_issue 100%, forgot_pin 0%, password_reset 0%
+Action Verb        : not working
+Target Entity      : debit card
+Entities           : debit card (CARD_TYPE)
+Recommended Action : Run card diagnostics (chip/PIN test), then offer instant replacement card.
 ```
 
-Open `http://localhost:8501`. Customers enter their name and query, submit it, and see the predicted category and confidence. With no PostgreSQL URL configured, submissions are stored locally in SQLite at `data/customer_queries.sqlite3`.
-
-Run the admin inbox in a second PowerShell window:
-
-```powershell
-cd F:\nlp_project
-.\.venv\Scripts\Activate.ps1
-streamlit run app\admin_app.py --server.address 127.0.0.1 --server.port 8502
-```
-
-Open `http://localhost:8502` to view submitted customer names, original queries, predicted categories, and confidence. Both pages bind to loopback on this computer.
-
-
-
-### Run the Flask app locally
+### Web app (Flask)
 
 ```bash
-python app/app.py            # http://127.0.0.1:8501 ; stores submissions in local SQLite
+python app/app.py
 ```
 
-### Deploy to Vercel
+Open <http://127.0.0.1:8501>. Submissions are stored in local SQLite (`data/customer_queries.sqlite3`) unless `DATABASE_URL` points to PostgreSQL. To use the admin inbox at `/admin`, set `SECRET_KEY` and `ADMIN_PASSWORD` before starting the app.
 
-The Flask app in `app/app.py` is a supported Vercel entrypoint, so no build settings are needed.
+### Python
 
-1. Push the repository to GitHub and import it in Vercel (**Add New → Project**). Keep the defaults; Vercel detects Flask and installs `requirements.txt`.
-2. In **Settings → Environment Variables**, set:
-   - `SECRET_KEY`: a long random string. Sessions and CSRF tokens depend on it.
-   - `DATABASE_URL`: a PostgreSQL connection string, for example from Vercel's Neon integration under **Storage**. Without it, queries are still classified and shown to the customer, but they are not saved and the admin inbox is empty.
-   - `ADMIN_PASSWORD`: the password for `/admin`.
-3. Deploy. `/health` returns `{"status": "ok"}` once the function is running.
+```python
+from src.predictor import IntentPredictor
 
-What makes the deployment work:
+result = IntentPredictor().predict("Someone used my card in another country")
+result["intent"], result["confidence"], result["needs_review"]
+# ('fraud_report', 0.97..., False)
+```
 
-- `requirements.txt` holds only inference dependencies (about 370 MB installed, under Vercel's 500 MB limit for Python functions). spaCy is left out to stay within that limit, so the NLP features fall back to NLTK; see Section 6 for the measured effect.
-- `nltk_data/` bundles the NLTK resources inference needs (WordNet, stopwords, the English POS tagger, and the English Punkt tokenizer). Vercel's file system is read-only, so these cannot be downloaded at runtime.
-- `vercel.json` excludes training data, reports, experiments, figures, and the full Word2Vec models from the function bundle, and allows up to 60 seconds for a cold start that loads the model.
+### Streamlit demos
 
-## 12. Experiments, Reports, and Promotion
+```bash
+streamlit run app/customer_streamlit.py --server.port 8501   # customer page
+streamlit run app/admin_app.py --server.port 8502            # admin inbox
+```
 
-Experiments and audits are kept separate from the canonical application artifact:
+## Deployment (Vercel)
+
+The Flask app in `app/app.py` is a supported Vercel entrypoint, so no build configuration is needed.
+
+1. Import the GitHub repository in Vercel (**Add New → Project**) and keep the defaults. Vercel detects Flask and installs `requirements.txt`.
+2. Under **Settings → Environment Variables**, add:
+
+   | Variable | Purpose |
+   |---|---|
+   | `SECRET_KEY` | Long random string that signs sessions and CSRF tokens |
+   | `DATABASE_URL` | PostgreSQL connection string (for example Neon, from Vercel's **Storage** tab). Without it, queries are still classified and shown, but not saved |
+   | `ADMIN_PASSWORD` | Password for the `/admin` inbox |
+
+3. Deploy, then check that `/health` returns `{"status": "ok"}`.
+
+**How the deployment fits Vercel's constraints:**
+
+- **Bundle size:** `requirements.txt` contains only inference dependencies, about 370 MB installed, which is under Vercel's 500 MB limit for Python functions. spaCy is omitted for that reason, so NLP analysis uses its NLTK fallback in production. Test Macro-F1 with the fallback is 96.20%, against 96.42% with spaCy.
+- **NLTK data:** `nltk_data/` bundles the NLTK resources inference needs (WordNet, stopwords, the English POS tagger, and English Punkt). Vercel's file system is read-only, so they cannot be downloaded at runtime.
+- **`vercel.json`:** excludes training data, reports, experiments, and figures from the function, and allows 60 seconds for a cold start.
+
+## Retraining the model
+
+```bash
+python -c "from src.data_loader import build_datasets; build_datasets()"   # rebuild splits from data/raw/
+python -m src.pipeline                                                     # train, compare, evaluate, save
+```
+
+The pipeline writes the champion to `artifacts/models/best_model.pkl` and its metrics to `artifacts/models/run_summary.json`, and regenerates every table and figure in `artifacts/figures/`. A full run takes about 4 minutes on a laptop CPU.
+
+**Dataset:** `data/raw/bank_customer_service_intent_classification_dataset.csv` contains 5,000 labelled queries across 6 intents, ranging from formal requests to slang, typos, and angry messages. The loader removes 28 duplicates and adds 539 templated examples (tagged `source=synthetic`) for `card_issue` and `forgot_pin`, which the raw data lacks. Templates are assigned to splits by template family, so no family appears in more than one split. Rebuilding from the raw file reproduces the committed split assignment; the current loader also strips trailing whitespace from 7 queries, which the committed splits keep.
+
+## Project structure
 
 ```text
-reports\leakage_audit_2026-10-02\
-experiments\linguistic_generalization_2026-10-02\
+.
+├── app/
+│   ├── app.py                  # Flask web app (Vercel entrypoint)
+│   ├── submissions.py          # PostgreSQL / SQLite storage
+│   ├── customer_streamlit.py   # Streamlit customer demo
+│   ├── admin_app.py            # Streamlit admin inbox
+│   └── templates/              # Customer, admin, and login pages
+├── src/
+│   ├── data_loader.py          # 1. Data collection and splitting
+│   ├── eda.py                  # 2. Data analysis
+│   ├── preprocessing.py        # 3. Text preprocessing
+│   ├── embeddings.py           # 4. BoW, TF-IDF, Word2Vec
+│   ├── nlp_analysis.py         # 5. POS, parsing, NER, action/target
+│   ├── feature_engineering.py  # 6. Feature sets
+│   ├── models.py               # 7. Classifiers
+│   ├── pipeline.py             # 8. Model comparison and training run
+│   ├── evaluation.py           # 9. Metrics and figures
+│   ├── predictor.py            # 10. Inference service
+│   └── utils.py                # Paths, labels, recommended actions
+├── data/
+│   ├── raw/                    # Original dataset
+│   ├── processed/              # Train / validation / test splits
+│   └── benchmarks/             # Behavioral test suite
+├── artifacts/
+│   ├── models/                 # Trained model and run summary
+│   └── figures/                # Evaluation tables and charts
+├── reports/                    # Leakage and generalization audit
+├── experiments/                # Linguistic generalization experiment
+├── nltk_data/                  # Bundled NLTK resources for deployment
+├── tests/                      # Unit and app tests
+├── docs/images/                # README screenshots
+├── predict.py                  # Command-line tool
+├── requirements.txt            # Inference dependencies (Vercel)
+├── requirements-project.txt    # Full development dependencies
+└── vercel.json                 # Vercel function configuration
 ```
 
-The generalization experiment includes a runner, training additions, a separate external-style evaluation set, metrics, a candidate model, a baseline snapshot, and a dataset-fingerprint manifest. It refuses to continue if its frozen additions or evaluation file have changed.
+## Evaluation and robustness
 
-Do not promote an experimental model based only on these exploratory results. First evaluate it on a genuinely independent, blinded set authored without access to the development examples, then review class-level errors and the false-review burden. Keep OOS detection as a separate measured capability.
+Beyond the headline test score, the project audits whether that score can be trusted and how far it generalizes.
 
-## 13. Project Status
+- **Leakage audit** ([report](reports/leakage_audit_2026-10-02/audit_report.md)): no exact duplicates across splits, and no template family shared between splits. Removing the 18 test queries most similar to training data changes Macro-F1 by only 0.02 points.
+- **Calibration:** for the previous baseline model, 10-bin expected calibration error was 2.6 points, so its confidence scores were reasonably reliable in aggregate.
+- **Behavioral suite:** 24 of 25 hand-written in-domain queries are classified correctly, and 3 of 4 out-of-scope queries are flagged for review.
+- **Unfamiliar wording:** on small hand-written paraphrase and adversarial sets, Macro-F1 falls to 59.9% and 70.3%. An isolated experiment ([report](experiments/linguistic_generalization_2026-10-02/experiment_report.md)) adds 145 varied training examples and raises the paraphrase score to 92.3%. That model has not been promoted, because its evaluation sets were written by the same author as its training additions.
 
-```text
-Core NLP pipeline:             Implemented
-Data preprocessing:            Implemented
-Vectorization and embeddings:  Implemented
-NLP analysis:                  Implemented (feeds feature engineering via hybrid_nlp)
-Feature engineering:           Implemented
-ML classification:             Implemented
-Evaluation and leakage audit:  Completed
-Linguistic enrichment:         Experiment completed; not promoted
-Independent validation:        Pending
-OOS robustness:                Needs improvement
-```
+| Evaluation | Previous baseline (`hybrid`) | Current (`hybrid_nlp`) |
+|---|---:|---:|
+| Test Macro-F1 | 95.75% | 96.42% |
+| 5-fold CV Macro-F1 on train | 96.58% ± 0.75 | 96.50% ± 0.51 |
+| Paraphrase set Macro-F1 (40 queries) | 53.90% | 59.92% |
+| Adversarial set Macro-F1 (40 queries) | 72.71% | 70.33% |
 
-The project is feature-complete for the core academic intent-classification objective. The next evidence needed is independent validation of the linguistic-generalization improvement.
+The gain from `hybrid_nlp` is modest: 3 more correct test queries out of 818, and no difference in cross-validation.
 
+## Limitations and roadmap
 
+**Known limitations**
+
+- **Out-of-scope detection is weak.** The current model's review rule flags only 5 of 10 unseen out-of-scope queries. For the previous baseline, the same rule also sent 40 of 80 in-domain queries to review.
+- **Paraphrase robustness:** accuracy drops on wording that differs from the training data.
+- **Synthetic data:** `card_issue` and `forgot_pin` are trained only on templated examples.
+- **Production trade-off:** the Vercel deployment runs without spaCy, at 96.20% instead of 96.42% test Macro-F1.
+
+**Roadmap**
+
+- [ ] Validate on an independent public benchmark by mapping [BANKING77](https://huggingface.co/datasets/PolyAI/banking77) intents to this label set.
+- [ ] Add a trained out-of-scope class using [CLINC150](https://github.com/clinc/oos-eval) out-of-scope queries.
+- [ ] Replace templated `card_issue` / `forgot_pin` data with real customer queries.
+- [ ] Benchmark a sentence-transformer or fine-tuned DistilBERT model against the current champion.
+- [ ] Promote the linguistic-generalization model once it passes an independent, blinded evaluation.
