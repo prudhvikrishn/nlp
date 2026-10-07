@@ -14,12 +14,13 @@ from flask_wtf.csrf import CSRFError, CSRFProtect
 ROOT = Path(__file__).resolve().parent.parent
 APP_DIR = Path(__file__).resolve().parent
 CONFIGURED_SECRET_KEY = os.environ.get("SECRET_KEY", "")
+MIN_SECRET_KEY_LENGTH = 32
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-from submissions import get_submissions, initialize_store, save_submission
+from submissions import get_submissions, initialize_store, save_submission, storage_enabled
 from src.predictor import IntentPredictor
 from src.utils import INTENT_DISPLAY, RECOMMENDED_ACTIONS
 
@@ -113,13 +114,15 @@ def submit_query():
         app.logger.exception("Customer query could not be classified")
         flash("We could not process your query right now. Please try again later.", "error")
         return _render_home(form=form, status=503)
-    try:
-        initialize_store()
-        save_submission(customer_name, query, prediction["intent"], prediction["confidence"])
-        recorded = True
-    except Exception:
-        app.logger.exception("Customer query could not be recorded")
-        recorded = False
+    recorded = None                      # None: saving is switched off (no database configured)
+    if storage_enabled():
+        try:
+            initialize_store()
+            save_submission(customer_name, query, prediction["intent"], prediction["confidence"])
+            recorded = True
+        except Exception:
+            app.logger.exception("Customer query could not be recorded")
+            recorded = False
 
     result = _customer_result(query, prediction)
     result["customer_name"] = customer_name
@@ -132,7 +135,8 @@ def admin_login():
     if session.get("admin_authenticated"):
         return redirect(url_for("admin_inbox"))
     configured_password = os.environ.get("ADMIN_PASSWORD", "")
-    admin_configured = bool(configured_password and CONFIGURED_SECRET_KEY)
+    # The admin flag lives in a cookie signed with SECRET_KEY; a short key could be guessed and the cookie forged.
+    admin_configured = bool(configured_password and len(CONFIGURED_SECRET_KEY) >= MIN_SECRET_KEY_LENGTH)
     if request.method == "POST":
         provided = request.form.get("password", "")
         if admin_configured and hmac.compare_digest(provided, configured_password):
@@ -148,6 +152,8 @@ def admin_login():
 def admin_inbox():
     if not session.get("admin_authenticated"):
         return redirect(url_for("admin_login"))
+    if not storage_enabled():
+        return render_template("admin.html", records=[], storage_error=False, storage_disabled=True)
     try:
         initialize_store()
         records = get_submissions()

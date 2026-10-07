@@ -14,6 +14,11 @@ def _database_url() -> str | None:
             or os.environ.get("POSTGRES_URL_UNPOOLED") or os.environ.get("POSTGRES_URL_NON_POOLING"))
 
 
+def storage_enabled() -> bool:
+    """Saving is optional on Vercel: without a PostgreSQL URL, queries are classified but not stored."""
+    return bool(_database_url()) or not os.environ.get("VERCEL")
+
+
 def _connect():
     database_url = _database_url()
     if database_url:

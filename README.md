@@ -196,8 +196,8 @@ The Flask app in `app/app.py` is a supported Vercel entrypoint, so no build conf
 
    | Variable | Purpose |
    |---|---|
-   | `SECRET_KEY` | Long random string that signs sessions and CSRF tokens |
-   | `DATABASE_URL` | PostgreSQL connection string (for example Neon, from Vercel's **Storage** tab). Without it, queries are still classified and shown, but not saved |
+   | `SECRET_KEY` | At least 32 random characters; signs sessions and CSRF tokens. Generate one with `python -c "import secrets; print(secrets.token_urlsafe(48))"`. The admin login stays disabled with a shorter key, because a guessable key would let anyone forge an admin session |
+   | `DATABASE_URL` | *Optional.* PostgreSQL connection string (for example Neon, from Vercel's **Storage** tab). Without it, queries are classified and shown to the customer but not saved, and the admin inbox explains that saving is off |
    | `ADMIN_PASSWORD` | Password for the `/admin` inbox |
 
 3. Deploy, then check that `/health` returns `{"status": "ok"}`.
