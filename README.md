@@ -4,7 +4,7 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-1.9-F7931E?logo=scikitlearn&logoColor=white)](requirements.txt)
 [![Flask](https://img.shields.io/badge/Flask-3.1-000000?logo=flask&logoColor=white)](app/app.py)
 [![Deploy on Vercel](https://img.shields.io/badge/deploy-Vercel-000000?logo=vercel&logoColor=white)](#deployment-vercel)
-[![Tests](https://img.shields.io/badge/tests-18%20passing-2ea44f)](tests/)
+[![Tests](https://img.shields.io/badge/tests-20%20passing-2ea44f)](tests/)
 
 An end-to-end NLP system that reads a customer's banking query in plain language, works out what the customer wants, and routes it to the right team. It classifies each query into one of **8 banking intents**, reports a calibrated confidence score, flags unfamiliar wording for human review, and explains its decision by extracting the action, topic, and banking entities from the text.
 
@@ -38,9 +38,8 @@ An end-to-end NLP system that reads a customer's banking query in plain language
 - **NLP-informed features**: the analysis output feeds the classifier as features, alongside TF-IDF, Word2Vec, and handcrafted linguistic signals.
 - **Systematic model comparison**: 5 classifiers × 6 feature sets, selected on validation data only.
 - **Customer web app** (Flask): shows the submitted query back with its category, confidence, closest alternatives, suggested next step, and the details extracted from the message.
-- **Admin inbox**: a password-protected view of submitted queries and their predictions.
 - **Command-line tool** for single-query prediction.
-- **Serverless deployment** on Vercel, with PostgreSQL for storage.
+- **Serverless deployment** on Vercel with no configuration or environment variables. The app is stateless: queries are classified and explained, and nothing is stored.
 
 ## Supported intents
 
@@ -74,7 +73,7 @@ flowchart TD
     G --> H[ML classification]
     H --> I[Model comparison]
     I --> J[Evaluation]
-    J --> K[Final NLP application<br/>web app · CLI · admin inbox]
+    J --> K[Final NLP application<br/>web app · CLI]
 ```
 
 | Stage | Module | What it does |
@@ -139,7 +138,7 @@ python -m venv .venv
 source .venv/bin/activate              # Windows: .venv\Scripts\activate
 pip install -r requirements-project.txt
 python -m spacy download en_core_web_sm
-python -m unittest discover tests      # 18 tests
+python -m unittest discover tests      # 20 tests
 ```
 
 The trained model ships in `artifacts/models/`, so no training is needed to run the apps. On Windows, `run_demo.bat` does the setup and starts the Streamlit demo in one step.
@@ -168,7 +167,7 @@ Recommended Action : Run card diagnostics (chip/PIN test), then offer instant re
 python app/app.py
 ```
 
-Open <http://127.0.0.1:8501>. Submissions are stored in local SQLite (`data/customer_queries.sqlite3`) unless `DATABASE_URL` points to PostgreSQL. To use the admin inbox at `/admin`, set `SECRET_KEY` and `ADMIN_PASSWORD` before starting the app.
+Open <http://127.0.0.1:8501>. Queries are classified and explained on the page; nothing is stored.
 
 ### Python
 
@@ -180,27 +179,18 @@ result["intent"], result["confidence"], result["needs_review"]
 # ('fraud_report', 0.97..., False)
 ```
 
-### Streamlit demos
+### Streamlit demo
 
 ```bash
-streamlit run app/customer_streamlit.py --server.port 8501   # customer page
-streamlit run app/admin_app.py --server.port 8502            # admin inbox
+streamlit run app/customer_streamlit.py --server.port 8501
 ```
 
 ## Deployment (Vercel)
 
-The Flask app in `app/app.py` is a supported Vercel entrypoint, so no build configuration is needed.
+The Flask app in `app/app.py` is a supported Vercel entrypoint, and `vercel.json` pins the Flask preset, so no build configuration or environment variables are needed.
 
-1. Import the GitHub repository in Vercel (**Add New → Project**) and keep the defaults. Vercel detects Flask and installs `requirements.txt`.
-2. Under **Settings → Environment Variables**, add:
-
-   | Variable | Purpose |
-   |---|---|
-   | `SECRET_KEY` | At least 32 random characters; signs sessions and CSRF tokens. Generate one with `python -c "import secrets; print(secrets.token_urlsafe(48))"`. The admin login stays disabled with a shorter key, because a guessable key would let anyone forge an admin session |
-   | `DATABASE_URL` | *Optional.* PostgreSQL connection string (for example Neon, from Vercel's **Storage** tab). Without it, queries are classified and shown to the customer but not saved, and the admin inbox explains that saving is off |
-   | `ADMIN_PASSWORD` | Password for the `/admin` inbox |
-
-3. Deploy, then check that `/health` returns `{"status": "ok"}`.
+1. Import the GitHub repository in Vercel (**Add New → Project**) and keep the defaults. Leave **Root Directory** empty.
+2. Deploy, then check that `/health` returns `{"status": "ok"}` and the home page shows the query form.
 
 > **If Vercel says "Nothing will load at your site's root":** the project was imported as a static site instead of a Flask app. In the project settings, set **Root Directory** to the repository root (leave it empty, not `app`) and **Framework Preset** to **Flask**, then redeploy. `vercel.json` also sets `"framework": "flask"` so the preset can't be guessed wrong.
 
@@ -227,10 +217,8 @@ The pipeline writes the champion to `artifacts/models/best_model.pkl` and its me
 .
 ├── app/
 │   ├── app.py                  # Flask web app (Vercel entrypoint)
-│   ├── submissions.py          # PostgreSQL / SQLite storage
 │   ├── customer_streamlit.py   # Streamlit customer demo
-│   ├── admin_app.py            # Streamlit admin inbox
-│   └── templates/              # Customer, admin, and login pages
+│   └── templates/              # Web page templates
 ├── src/
 │   ├── data_loader.py          # 1. Data collection and splitting
 │   ├── eda.py                  # 2. Data analysis

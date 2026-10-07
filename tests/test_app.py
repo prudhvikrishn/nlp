@@ -1,16 +1,12 @@
-import os
-import tempfile
 import unittest
 
-os.environ.setdefault("BSD_BANK_SQLITE_PATH", os.path.join(tempfile.mkdtemp(), "test.sqlite3"))
-
-from app.app import app  # noqa: E402
+from app.app import app
 
 
 class TestCustomerApp(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        app.config.update(WTF_CSRF_ENABLED=False, TESTING=True)
+        app.config.update(TESTING=True)
         cls.client = app.test_client()
 
     def test_home_renders_form(self):
@@ -32,17 +28,15 @@ class TestCustomerApp(unittest.TestCase):
         self.assertEqual(r.status_code, 400)
         self.assertIn(b"check my balance", r.data)
 
-    def test_no_database_on_vercel_still_classifies(self):
-        os.environ["VERCEL"] = "1"
-        try:
-            r = self.client.post("/submit", data={"customer_name": "Asha", "query": "what is my savings balance"})
-        finally:
-            del os.environ["VERCEL"]
+    def test_result_shows_routing_and_analysis(self):
+        r = self.client.post("/submit", data={"customer_name": "Asha", "query": "what is my savings balance"})
         html = r.get_data(as_text=True)
         self.assertEqual(r.status_code, 200)
         self.assertIn("Balance Inquiry", html)
-        self.assertNotIn("couldn&#39;t save", html)
+        self.assertIn("What we picked out of your message", html)
 
+    def test_health(self):
+        self.assertEqual(self.client.get("/health").json["status"], "ok")
 
 if __name__ == "__main__":
     unittest.main()

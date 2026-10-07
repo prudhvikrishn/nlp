@@ -36,14 +36,6 @@
     .notice { border-radius: 8px; padding: .8rem 1rem; margin: 1rem 0; background: #edf5fc; }
     .error { background: var(--bad-soft); color: var(--bad); }
     .warning { background: var(--warn-soft); color: var(--warn); }
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; background: #fff; }
-    th, td { text-align: left; vertical-align: top; padding: .75rem; border-bottom: 1px solid var(--line); }
-    th { background: #eef3f8; }
-    td.query { min-width: 260px; white-space: pre-wrap; overflow-wrap: anywhere; }
-    .topline { display: flex; justify-content: space-between; gap: 1rem; align-items: center; flex-wrap: wrap; }
-    .topline form { margin: 0; }
-    .topline button { margin: 0; }
     @media (max-width: 600px) { main { margin-top: 1rem; } .card { padding: 1rem; } h1 { font-size: 1.35rem; } }
   </style>
   {% block head %}{% endblock %}
@@ -51,9 +43,7 @@
 <body>
   <header><a class="brand" href="{{ url_for('customer_home') }}">BSD Bank<span>Customer Support</span></a></header>
   <main>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% for category, message in messages %}<div class="notice {{ category }}" role="alert">{{ message }}</div>{% endfor %}
-    {% endwith %}
+    {% if error %}<div class="notice error" role="alert">{{ error }}</div>{% endif %}
     {% block content %}{% endblock %}
   </main>
 </body>

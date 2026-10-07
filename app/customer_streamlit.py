@@ -5,13 +5,9 @@ from pathlib import Path
 import streamlit as st
 
 ROOT = Path(__file__).resolve().parent.parent
-APP_DIR = Path(__file__).resolve().parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
-if str(APP_DIR) not in sys.path:
-    sys.path.insert(0, str(APP_DIR))
 
-from submissions import initialize_store, save_submission
 from src.predictor import IntentPredictor
 
 st.set_page_config(page_title="BSD Bank", layout="centered")
@@ -25,8 +21,6 @@ st.markdown("""
 .bsd-header p { margin: .35rem 0 0; color: #d7e6f3; }
 </style>
 """, unsafe_allow_html=True)
-
-initialize_store()
 
 @st.cache_resource
 def load_predictor():
@@ -51,14 +45,8 @@ if submitted:
         try:
             with st.spinner("Classifying your query..."):
                 result = load_predictor().predict(query.strip(), with_analysis=False)
-                submission_id = save_submission(
-                    customer_name=customer_name.strip(),
-                    query=query.strip(),
-                    intent=result["intent"],
-                    confidence=result["confidence"],
-                )
             st.session_state["last_customer_result"] = {
-                "submission_id": submission_id,
+                "query": query.strip(),
                 "customer_name": customer_name.strip(),
                 "intent": result["display"],
                 "confidence": result["confidence"],
@@ -70,11 +58,13 @@ if submitted:
 result = st.session_state.get("last_customer_result")
 if result:
     st.divider()
+    st.subheader("Your query")
+    st.text(result["query"])   # plain text, so the customer's words are shown exactly as typed
     st.subheader("Your query category")
     st.success(result["intent"])
     st.caption(f"Classification confidence: {result['confidence']:.1%}")
     if result["needs_review"]:
         st.info("Your wording may need a closer review. A support representative can help you further.")
     else:
-        st.write("Your query has been recorded for the BSD Bank support team.")
+        st.write(f"Your query belongs with our {result['intent']} team.")
 
