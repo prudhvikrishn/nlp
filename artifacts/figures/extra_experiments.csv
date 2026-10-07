@@ -6,3 +6,4 @@ Word2Vec CBOW pooling: mean (+LR),0.9327
 Word2Vec CBOW pooling: idf-weighted (+LR),0.909
 Word2Vec SkipGram pooling: mean (+LR),0.9375
 Word2Vec SkipGram pooling: idf-weighted (+LR),0.909
+NLP-analysis features only: NER + action/target + dependency relations (+LR),0.7927

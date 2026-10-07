@@ -10,7 +10,7 @@ The current source of truth is:
 F:\nlp_project
 ```
 
-The canonical application model remains the verified baseline model. Experimental models are stored separately and have not been promoted.
+The canonical application model is the pipeline champion, a calibrated LinearSVC on `hybrid_nlp` features. The audit and the linguistic-generalization experiment were run against the previous `hybrid` baseline. Experimental models are stored separately and have not been promoted.
 
 ## 2. Project Goal
 
@@ -42,7 +42,7 @@ The project aims to recognize banking intents across varied customer wording. Th
 | Vectorization | `src/feature_engineering.py` and `src/embeddings.py` | Fits and applies BoW and TF-IDF vectorizers on training-fitted vocabulary |
 | Word embedding | `src/embeddings.py`, used by `src/feature_engineering.py` | Trains Word2Vec CBOW and Skip-Gram representations |
 | NLP analysis | `src/nlp_analysis.py` | POS tags, spaCy dependency data when the spaCy model is available, regex banking entities, and action-to-target extraction |
-| Feature engineering | `src/feature_engineering.py` | BoW, TF-IDF, Word2Vec, and hybrid representations |
+| Feature engineering | `src/feature_engineering.py` | BoW, TF-IDF, Word2Vec, hybrid, and `hybrid_nlp` (hybrid + Stage 5 NLP-analysis features) representations |
 | ML classification | `src/models.py` | Classifier definitions, compatibility rules, and tuning grids |
 | Model comparison | `src/models.py`, `src/evaluation.py`, orchestrated by `src/pipeline.py` | Scores compatible classifier/feature pairs on validation; table and chart are under `artifacts/figures/` |
 | Pipeline orchestration | `src/pipeline.py` | Fits candidates, selects the champion on validation, evaluates the held-out test set, and writes canonical artifacts |
@@ -125,13 +125,21 @@ The raw dataset is kept under `data/raw/`. The data loader creates the enriched 
 
 `src/embeddings.py` implements Bag of Words, TF-IDF, and Word2Vec support. `src/feature_engineering.py` fits representations on training data and combines TF-IDF, Word2Vec, and linguistic features for the hybrid representation.
 
+The `hybrid_nlp` representation connects the NLP-analysis stage to feature engineering. For every query, it turns the `BankingNLPAnalyzer` output into sparse indicator features, fitted on training data only and kept when seen at least twice:
+
+- NER: entity labels such as `ent=AMOUNT`, `ent=CARD_TYPE`, `ent=MASKED_CARD`, and spaCy `DATE`/`MONEY`
+- Semantic labeling: `target=debit card`, `action=working`, `action_negated`, and the frame `not working->debit card`
+- Dependency parsing: relation types, the root word, and head-dependent pairs such as `dobj=forgot_pin`
+
+The block is L2-normalized like the TF-IDF block and appended to the hybrid features. Without that normalization, the validation Macro-F1 of LinearSVC on `hybrid_nlp` was 95.88%, below plain hybrid.
+
 ### Linguistic Analysis
 
 `src/nlp_analysis.py` uses spaCy when `en_core_web_sm` is available. Its fallback provides NLTK POS tagging and regex-based banking entities; dependency output is unavailable in fallback mode. The analyzer also extracts a banking action and target.
 
 ## 6. Current Canonical Model
 
-The verified champion is a calibrated LinearSVC using hybrid features:
+The current champion is a calibrated LinearSVC using `hybrid_nlp` features (hybrid + NLP-analysis features):
 
 ```text
 LinearSVC C=1.0
@@ -142,22 +150,27 @@ CalibratedClassifierCV method=sigmoid, cv=5
 
 The pipeline compares compatible feature/classifier pairs by validation Macro-F1 and uses its tie rule to select the champion. The test set is held out from this selection. The canonical artifact is `artifacts/models/best_model.pkl`.
 
+The NLP features are fitted with spaCy `en_core_web_sm`. When spaCy is unavailable, as with the minimal Vercel `requirements.txt`, the analyzer falls back to NLTK, which has no dependency parse, and the feature builder warns about the backend mismatch. Measured on the test set, that fallback scores 96.20% Macro-F1 instead of 96.42%.
+
 ## 7. Verified Baseline Performance
 
-The saved and reproduced baseline results are:
+Current champion (`hybrid_nlp` + LinearSVC), compared with the previous `hybrid` baseline:
 
-```text
-Test queries: 818
-Accuracy:      96.70%
-Macro-F1:      95.75%
-Weighted-F1:   96.67%
+| Evaluation | Previous baseline (`hybrid`) | Current (`hybrid_nlp`) |
+|---|---:|---:|
+| Validation Macro-F1 (used for selection) | 97.28% | 97.82% |
+| Test accuracy (818 queries, held out) | 96.70% | 97.07% |
+| Test Macro-F1 | 95.75% | 96.42% |
+| Test Weighted-F1 | 96.67% | 97.05% |
+| 5-fold CV Macro-F1 on train | 96.58% ± 0.75 | 96.50% ± 0.51 |
+| Frozen paraphrase Macro-F1 (40) | 53.90% | 59.92% |
+| Frozen adversarial Macro-F1 (40) | 72.71% | 70.33% |
+| Expanded external-style Macro-F1 (80) | 50.00% | 51.12% |
+| Behavioral suite in-domain / OOS flagged | 24/25, 3/4 | 24/25, 3/4 |
 
-Training Macro-F1:    99.82%
-Validation Macro-F1:  97.28%
-Test Macro-F1:        95.75%
-```
+The validation and test gains are small (about 4–6 queries), and train CV shows no gain. The block normalization was chosen while looking at validation scores. Treat `hybrid_nlp` as a modest, not conclusive, improvement. On its own, the NLP-analysis block reaches 79.27% validation Macro-F1 with Logistic Regression (`artifacts/figures/extra_experiments.csv`), so it carries real intent signal but complements lexical features rather than replacing them.
 
-The high in-sample training score alone does not establish overfitting. The main observed limitation is weaker performance on linguistically novel queries.
+The high in-sample training score (99.82% Macro-F1 for the previous baseline) alone does not establish overfitting. The main observed limitation is weaker performance on linguistically novel queries.
 
 ## 8. Leakage and Generalization Audit
 
@@ -173,7 +186,7 @@ The isolated experiment is under:
 experiments\linguistic_generalization_2026-10-02
 ```
 
-It adds 145 hand-authored training examples and retrains the same champion architecture without changing the original train, validation, test, or existing evaluation files.
+It was run against the previous `hybrid` baseline. It adds 145 hand-authored training examples and retrains the same champion architecture without changing the original train, validation, test, or existing evaluation files.
 
 | Evaluation | Baseline Macro-F1 | Enriched Macro-F1 |
 |---|---:|---:|
@@ -256,7 +269,7 @@ Do not promote an experimental model based only on these exploratory results. Fi
 Core NLP pipeline:             Implemented
 Data preprocessing:            Implemented
 Vectorization and embeddings:  Implemented
-NLP analysis:                  Implemented
+NLP analysis:                  Implemented (feeds feature engineering via hybrid_nlp)
 Feature engineering:           Implemented
 ML classification:             Implemented
 Evaluation and leakage audit:  Completed

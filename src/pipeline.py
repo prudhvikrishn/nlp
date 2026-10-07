@@ -153,6 +153,10 @@ def _extras(P, y, fb, X):
             Xt = doc_matrix([p["lemmas"] for p in P["train"]], wv, w); Xv = doc_matrix([p["lemmas"] for p in P["val"]], wv, w)
             lr = LogisticRegression(class_weight="balanced", max_iter=2000, C=10).fit(Xt, y["train"])
             rows.append({"experiment": f"Word2Vec {nm} pooling: {pool} (+LR)", "val_macro_f1": round(f1_score(y["val"], lr.predict(Xv), average="macro"), 4)})
+    # Stage-5 ablation: how much intent signal do the NLP-analysis features (NER, action/target, parse) carry alone?
+    lr = LogisticRegression(class_weight="balanced", max_iter=2000, C=1).fit(fb.nlp_matrix(P["train"]), y["train"])
+    rows.append({"experiment": "NLP-analysis features only: NER + action/target + dependency relations (+LR)",
+                 "val_macro_f1": round(f1_score(y["val"], lr.predict(fb.nlp_matrix(P["val"])), average="macro"), 4)})
     pd.DataFrame(rows).to_csv(FIGURES_DIR / "extra_experiments.csv", index=False)
 
 

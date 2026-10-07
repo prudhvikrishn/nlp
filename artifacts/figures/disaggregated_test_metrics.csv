@@ -1,4 +1,4 @@
 view,accuracy,macro_f1,weighted_f1,macro_precision,macro_recall,weighted_precision,weighted_recall,n
-ALL,0.967,0.9575,0.9667,0.9741,0.9436,0.9677,0.967,818
-original intents,0.9718,0.9633,0.9723,0.9748,0.9526,0.9732,0.9718,746
-enriched intents (synthetic),0.9167,0.9545,0.9545,1.0,0.9167,1.0,0.9167,72
+ALL,0.9707,0.9642,0.9705,0.9787,0.9513,0.9711,0.9707,818
+original intents,0.9732,0.9638,0.973,0.9749,0.9536,0.9732,0.9732,746
+enriched intents (synthetic),0.9444,0.9706,0.9706,1.0,0.9444,1.0,0.9444,72
