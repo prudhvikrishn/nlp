@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "flask",
   "functions": {
     "app/app.py": {
       "excludeFiles": "{.venv/**,tests/**,data/raw/**,data/processed/**,data/benchmarks/**,data/customer_queries.sqlite3,artifacts/figures/**,artifacts/models/w2v_*.model,reports/**,experiments/**,app/customer_streamlit.py,app/admin_app.py,requirements-project.txt,predict.py,run_demo.bat}",

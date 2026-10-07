@@ -202,6 +202,8 @@ The Flask app in `app/app.py` is a supported Vercel entrypoint, so no build conf
 
 3. Deploy, then check that `/health` returns `{"status": "ok"}`.
 
+> **If Vercel says "Nothing will load at your site's root":** the project was imported as a static site instead of a Flask app. In the project settings, set **Root Directory** to the repository root (leave it empty, not `app`) and **Framework Preset** to **Flask**, then redeploy. `vercel.json` also sets `"framework": "flask"` so the preset can't be guessed wrong.
+
 **How the deployment fits Vercel's constraints:**
 
 - **Bundle size:** `requirements.txt` contains only inference dependencies, about 370 MB installed, which is under Vercel's 500 MB limit for Python functions. spaCy is omitted for that reason, so NLP analysis uses its NLTK fallback in production. Test Macro-F1 with the fallback is 96.20%, against 96.42% with spaCy.
