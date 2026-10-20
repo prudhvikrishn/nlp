@@ -10,6 +10,8 @@ An end-to-end NLP system that reads a customer's banking query in plain language
 
 **Held-out test results (818 queries): 97.07% accuracy, 96.42% Macro-F1.**
 
+**Live demo:** [nlp-zeta-beryl.vercel.app](https://nlp-zeta-beryl.vercel.app/)
+
 ![BSD Bank customer page showing a submitted query, its predicted category, confidence, closest matches, and extracted details](docs/images/customer-page.png)
 
 ---
